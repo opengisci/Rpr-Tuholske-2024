@@ -12,13 +12,14 @@ Reproduction of "Hazardous heat exposure among incarcerated people in the United
 
 ## Abstract
 
-Write a brief abstract about your research project.
-If the project is a reproduction or replication study, include the full citation with a statement
-This study is a *reproduction/replication* of:
-
-> citation to prior study
+This study is a *reproduction* of:
 Tuholske, C., Lynch, V.D., Spriggs, R. et al. Hazardous heat exposure among incarcerated people in the United States. Nat Sustain 7, 394–398 (2024). https://doi.org/10.1038/s41893-024-01293-y
-A graphical abstract of the study could also be included as an image here.
+[Git Repository](https://github.com/sparklabnyc/temperature_prisons_united_states_2024)
+
+By reproducing the exploratory data analysis done in Tuholske et al. (2024), we seek to...
+*1.* Identify the temporal resolution at which authors use population data to calculate population weighted hazardous heat days
+*2.* Understand the population weighting mechanism in state-level hazardous heat calculations. 
+*3.* Evaluate the effectiveness of the author's methods compared to similar research. 
 
 ## Study Metadata
 
