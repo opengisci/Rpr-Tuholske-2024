@@ -27,14 +27,14 @@ A graphical abstract of the study could also be included as an image here.
 - `Date created`: 04-07-2025
 - `Date modified`: date of most recent revision
 - `Spatial Coverage`: United States Lower 48
-- `Spatial Resolution`: 4km? Specify the spatial resolution as a scale factor, description of the level of detail of each unit of observation (including administrative level of administrative areas), and/or or distance of a raster GRID size
+- `Spatial Resolution`: 4km raster squares? Specify the spatial resolution as a scale factor, description of the level of detail of each unit of observation (including administrative level of administrative areas), and/or or distance of a raster GRID size
 - `Spatial Reference System`: Specify the geographic or projected coordinate system for the study
 - `Temporal Coverage`: Specify the temporal extent of your study---i.e. the range of time represented by the data observations.
 - `Temporal Resolution`: Specify the temporal resolution of your study---i.e. the duration of time for which each observation represents or the revisit period for repeated observations
-- `Funding Name`: name of funding for the project
-- `Funding Title`: title of project grant
-- `Award info URI`: web address for award information
-- `Award number`: award number
+- `Funding Name`: n/a
+- `Funding Title`: n/a
+- `Award info URI`: n/a
+- `Award number`: n/a
 
 ## Related to
 
