@@ -2,11 +2,11 @@ If you use this template for research, please [cite it](template_reference.bib):
 > Kedron, P., & Holler, J. (2023). Template for Reproducible and Replicable Research in Human-Environment and Geographical Sciences. https://doi.org/10.17605/OSF.IO/W29MQ
 
 # Title of Study
-
+Reproduction of "Hazardous heat exposure among incarcerated people in the United States" Tuholske et. al. (2024)
 ## Contributors
 
-- First Name Last Name\*, email address, @githubname, ORCID link, affiliated institution(s)
-- First Name Last Name, email address, @githubname, ORCID link, affiliated institution(s)
+- Sam Barnard\*, sbbarnard@middlebury.edu, @padutchfan123, ORCID link, Middlebury College
+- Matthew Mills, mmills@middlebury.edu, @mkahngmills, ORCID link, Middlebury College
 
 \* Corresponding author and creator
 
@@ -17,17 +17,17 @@ If the project is a reproduction or replication study, include the full citation
 This study is a *reproduction/replication* of:
 
 > citation to prior study
-
+Tuholske, C., Lynch, V.D., Spriggs, R. et al. Hazardous heat exposure among incarcerated people in the United States. Nat Sustain 7, 394–398 (2024). https://doi.org/10.1038/s41893-024-01293-y
 A graphical abstract of the study could also be included as an image here.
 
 ## Study Metadata
 
-- `Key words`: Comma-separated list of keywords (tags) for searchability. Geographers often use one or two keywords each for: theory, geographic context, and methods.
-- `Subject`: select from the [BePress Taxonomy](http://digitalcommons.bepress.com/cgi/viewcontent.cgi?article=1008&context=reference)
-- `Date created`: date when project was started
+- `Key words`: heat, climate change, prisons, US Lower 48, reproduction.
+- `Subject`: Social and Behavioral Sciences: Geography: Geographic Information Sciences [BePress Taxonomy](http://digitalcommons.bepress.com/cgi/viewcontent.cgi?article=1008&context=reference)
+- `Date created`: 04-07-2025
 - `Date modified`: date of most recent revision
-- `Spatial Coverage`: Specify the geographic extent of your study. This may be a place name and link to a feature in a gazetteer like GeoNames or OpenStreetMap, or a well known text (WKT) representation of a bounding box.
-- `Spatial Resolution`: Specify the spatial resolution as a scale factor, description of the level of detail of each unit of observation (including administrative level of administrative areas), and/or or distance of a raster GRID size
+- `Spatial Coverage`: United States Lower 48
+- `Spatial Resolution`: 4km? Specify the spatial resolution as a scale factor, description of the level of detail of each unit of observation (including administrative level of administrative areas), and/or or distance of a raster GRID size
 - `Spatial Reference System`: Specify the geographic or projected coordinate system for the study
 - `Temporal Coverage`: Specify the temporal extent of your study---i.e. the range of time represented by the data observations.
 - `Temporal Resolution`: Specify the temporal resolution of your study---i.e. the duration of time for which each observation represents or the revisit period for repeated observations
