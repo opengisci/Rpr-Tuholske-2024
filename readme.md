@@ -29,8 +29,8 @@ A graphical abstract of the study could also be included as an image here.
 - `Spatial Coverage`: United States Lower 48
 - `Spatial Resolution`: 4km raster squares? Specify the spatial resolution as a scale factor, description of the level of detail of each unit of observation (including administrative level of administrative areas), and/or or distance of a raster GRID size
 - `Spatial Reference System`: Specify the geographic or projected coordinate system for the study
-- `Temporal Coverage`: Specify the temporal extent of your study---i.e. the range of time represented by the data observations.
-- `Temporal Resolution`: Specify the temporal resolution of your study---i.e. the duration of time for which each observation represents or the revisit period for repeated observations
+- `Temporal Coverage`: 1982-2020
+- `Temporal Resolution`: 1 year
 - `Funding Name`: n/a
 - `Funding Title`: n/a
 - `Award info URI`: n/a
@@ -38,12 +38,12 @@ A graphical abstract of the study could also be included as an image here.
 
 ## Related to
 
-- `OSF Project`:
-- `Pre-analysis Registration`:
-- `Post-analysis Report Registration`:
-- `Preprint`:
-- `Conference Presentation`:
-- `Publication`:
+- `OSF Project`: n/a
+- `Pre-analysis Registration`: n/a
+- `Post-analysis Report Registration`: n/a
+- `Preprint`: n/a
+- `Conference Presentation`: n/a
+- `Publication`: n/a
 - `Prior Study`:
 - `...`:
 
