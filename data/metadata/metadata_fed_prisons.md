@@ -1,17 +1,13 @@
-- `Title`: Title of data source
-- `Abstract`: Brief description of the data source
-- `Spatial Coverage`: Specify the geographic extent of your study. This may be a place name and link to a feature in a gazetteer like GeoNames or OpenStreetMap, or a well known text (WKT) representation of a bounding box.
-- `Spatial Resolution`: Specify the spatial resolution as a scale factor, description of the level of detail of each unit of observation (including administrative level of administrative areas), and/or or distance of a raster GRID size
-- `Spatial Representation Type`: Specify the model of spatial data representation, e.g. one of `vector`, `grid`, `textTable`, `tin` (triangulated irregular network), etc. If the type is `vector`, also specify the geometry type as in the OGC Simple Feature Access standard (https://www.ogc.org/publications/standard/sfa/) , e.g. `POINT`, `LINESTRING`, `MULTIPOLYGON`, etc. 
-- `Spatial Reference System`: Specify the geographic or projected coordinate system for the study
-- `Temporal Coverage`: Specify the temporal extent of your study---i.e. the range of time represented by the data observations.
-- `Temporal Resolution`: Specify the temporal resolution of your study---i.e. the duration of time for which each observation represents or the revisit period for repeated observations
-- `Lineage`: Describe and/or cite data sources and/or methodological steps taken or planned to create this data source, e.g.:
-  - sampling scheme, including spatial sampling
-  - target sample size and method for determining sample size
-  - stopping criteria for data collection and sampling (e.g. sample size, time elapsed)
-  - de-identification / anonymization
-  - experimental manipulation
+- `Title`: fed_prisons.csv
+- `Abstract`: Table listing federal prisons by FID alongside facility type, using binary classifications to identify: Administrative, Federal Correctional Institution (FCI), Immigration and Customs Enforcement (ICE), Private, United States
+Penitentiary (USP), and Work camps.
+- `Spatial Coverage`: Continental US
+- `Spatial Resolution`: N/A
+- `Spatial Representation Type`: `POINT` vector representation
+- `Spatial Reference System`: N/A
+- `Temporal Coverage`: 1982-2020 (unclear)
+- `Temporal Resolution`: N/A
+- `Lineage`: Unclear origin. Used to create supplementary figure 1
 - `Distribution`: Describe who will make the data available and how?
 - `Constraints`: Legal constraints for *access* or *use* to protect *privacy* or *intellectual property rights*
 - `Data Quality`: State any planned quality assessment
