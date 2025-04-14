@@ -41,7 +41,7 @@ By reproducing the exploratory data analysis done in Tuholske et al. (2024), we 
 - `Preprint`: n/a
 - `Conference Presentation`: n/a
 - `Publication`: n/a
-- `Prior Study`:
+- `Prior Study`: Tuholske et al. (2024)
 - `...`:
 
 ## Metadata for access

@@ -6,9 +6,9 @@
 -   `Spatial Reference System`: N/A
 -   `Temporal Coverage`: 1982-2020 (unclear)
 -   `Temporal Resolution`: N/A
--   `Lineage`: Unclear origin. Used to create supplementary figure 1
--   `Distribution`: Describe who will make the data available and how?
--   `Constraints`: Legal constraints for *access* or *use* to protect *privacy* or *intellectual property rights*
+-   `Lineage`: Compiled by original study authors, Used to create supplementary figure 1
+-   `Distribution`: Made available by original authors in github repository
+-   `Constraints`: Public domain
 -   `Data Quality`: State any planned quality assessment
 -   `Variables`: For each variable, enter the following information. If you have two or more variables per data source, you may want to present this information in table form (shown below)
     -   `Label`: variable name as used in the data or code

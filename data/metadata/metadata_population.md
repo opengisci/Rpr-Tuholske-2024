@@ -8,7 +8,7 @@
 -   `Temporal Resolution`: Month
 -   `Lineage`: Acquired from census, pre-1990 and post-1990 data standardized
 -   `Distribution`: Describe who will make the data available and how?
--   `Constraints`: Legal constraints for *access* or *use* to protect *privacy* or *intellectual property rights*
+-   `Constraints`: Public domain
 -   `Data Quality`: Unclear lineage
 -   `Variables`:
 
