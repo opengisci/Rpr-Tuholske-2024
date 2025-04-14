@@ -1,8 +1,4 @@
-If you use this template for research, please [cite it](template_reference.bib):
-> Kedron, P., & Holler, J. (2023). Template for Reproducible and Replicable Research in Human-Environment and Geographical Sciences. https://doi.org/10.17605/OSF.IO/W29MQ
-
-# Title of Study
-Reproduction of "Hazardous heat exposure among incarcerated people in the United States" Tuholske et. al. (2024)
+# Reproduction of "Hazardous heat exposure among incarcerated people in the United States" Tuholske et. al. (2024)
 ## Contributors
 
 - Sam Barnard\*, sbbarnard@middlebury.edu, @padutchfan123, ORCID link, Middlebury College

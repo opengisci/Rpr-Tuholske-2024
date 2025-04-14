@@ -318,3 +318,5 @@ If a prior registration *does* exist, explain the rationale for revising the reg
 This report is based upon the template for Reproducible and Replicable Research in Human-Environment and Geographical Sciences, [DOI:[10.17605/OSF.IO/W29MQ](DOI:%5B10.17605/OSF.IO/W29MQ){.uri}](<https://doi.org/10.17605/OSF.IO/W29MQ>)
 
 # References
+
+> Kedron, P., & Holler, J. (2023). Template for Reproducible and Replicable Research in Human-Environment and Geographical Sciences. https://doi.org/10.17605/OSF.IO/W29MQ
