@@ -1,7 +1,7 @@
 - `Title`: fed_prisons.csv
 - `Abstract`: Table listing federal prisons by FID alongside facility type, using binary classifications to identify: Administrative, Federal Correctional Institution (FCI), Immigration and Customs Enforcement (ICE), Private, United States
 Penitentiary (USP), and Work camps.
-- `Spatial Coverage`: Continental US
+- `Spatial Coverage`: Continental U.S.
 - `Spatial Resolution`: N/A
 - `Spatial Representation Type`: `POINT` vector representation
 - `Spatial Reference System`: N/A
