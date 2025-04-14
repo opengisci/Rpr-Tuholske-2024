@@ -14,7 +14,8 @@ bibliography: "../../software.bib"
 
 # Instructions
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents.
+This is an R Markdown document.
+Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents.
 For more details on using R Markdown see <https://rmarkdown.rstudio.com/lesson-1.html>.
 In the header section above, you can configure [options for this document](https://bookdown.org/yihui/rmarkdown/html-document.html), including title, author(s), and additional style and output options.
 The `nocite` and `bibliography` lines automatically add a bibliography for the software packages you have used.
@@ -36,27 +37,27 @@ A graphical abstract of the study could also be included as an image here.
 
 # Study metadata
 
-- `Key words`: Comma-separated list of keywords (tags) for searchability. Geographers often use one or two keywords each for: theory, geographic context, and methods.
-- `Subject`: select from the [BePress Taxonomy](http://digitalcommons.bepress.com/cgi/viewcontent.cgi?article=1008&context=reference)
-- `Date created`: date when project was started
-- `Date modified`: date of most recent revision
-- `Spatial Coverage`: Specify the geographic extent of your study. This may be a place name and link to a feature in a gazetteer like GeoNames or OpenStreetMap, or a well known text (WKT) representation of a bounding box.
-- `Spatial Resolution`: Specify the spatial resolution as a scale factor, description of the level of detail of each unit of observation (including administrative level of administrative areas), and/or or distance of a raster GRID size
-- `Spatial Reference System`: Specify the geographic or projected coordinate system for the study, e.g. EPSG:4326
-- `Temporal Coverage`: Specify the temporal extent of your study---i.e. the range of time represented by the data observations.
-- `Temporal Resolution`: Specify the temporal resolution of your study---i.e. the duration of time for which each observation represents or the revisit period for repeated observations
-- `Funding Name`: name of funding for the project
-- `Funding Title`: title of project grant
-- `Award info URI`: web address for award information
-- `Award number`: award number
+-   `Key words`: Comma-separated list of keywords (tags) for searchability. Geographers often use one or two keywords each for: theory, geographic context, and methods.
+-   `Subject`: select from the [BePress Taxonomy](http://digitalcommons.bepress.com/cgi/viewcontent.cgi?article=1008&context=reference)
+-   `Date created`: date when project was started
+-   `Date modified`: date of most recent revision
+-   `Spatial Coverage`: Specify the geographic extent of your study. This may be a place name and link to a feature in a gazetteer like GeoNames or OpenStreetMap, or a well known text (WKT) representation of a bounding box.
+-   `Spatial Resolution`: Specify the spatial resolution as a scale factor, description of the level of detail of each unit of observation (including administrative level of administrative areas), and/or or distance of a raster GRID size
+-   `Spatial Reference System`: Specify the geographic or projected coordinate system for the study, e.g. EPSG:4326
+-   `Temporal Coverage`: Specify the temporal extent of your study---i.e. the range of time represented by the data observations.
+-   `Temporal Resolution`: Specify the temporal resolution of your study---i.e. the duration of time for which each observation represents or the revisit period for repeated observations
+-   `Funding Name`: name of funding for the project
+-   `Funding Title`: title of project grant
+-   `Award info URI`: web address for award information
+-   `Award number`: award number
 
 ## Original study spatio-temporal metadata
 
-- `Spatial Coverage`: extent of original study
-- `Spatial Resolution`: resolution of original study
-- `Spatial Reference System`: spatial reference system of original study
-- `Temporal Coverage`: temporal extent of original study
-- `Temporal Resolution`: temporal resolution of original study
+-   `Spatial Coverage`: extent of original study
+-   `Spatial Resolution`: resolution of original study
+-   `Spatial Reference System`: spatial reference system of original study
+-   `Temporal Coverage`: temporal extent of original study
+-   `Temporal Resolution`: temporal resolution of original study
 
 # Study design
 
@@ -127,106 +128,109 @@ Describe the **data sources** and **variables** to be used.
 Data sources may include plans for observing and recording **primary data** or descriptions of **secondary data**.
 For secondary data sources with numerous variables, the analysis plan authors may focus on documenting only the variables intended for use in the study.
 
-Primary data sources for the study are to include ... .
-Secondary data sources for the study are to include ... .
+Primary data sources for the study are to include ...
+. Secondary data sources for the study are to include ...
+.
 
 Each of the next subsections describes one data source.
 
 ### Primary data source1 name
 
-- `Title`: Title of data source
-- `Abstract`: Brief description of the data source
-- `Spatial Coverage`: Specify the geographic extent of your study. This may be a place name and link to a feature in a gazetteer like GeoNames or OpenStreetMap, or a well known text (WKT) representation of a bounding box.
-- `Spatial Resolution`: Specify the spatial resolution as a scale factor, description of the level of detail of each unit of observation (including administrative level of administrative areas), and/or or distance of a raster GRID size
-- `Spatial Representation Type`: Specify the model of spatial data representation, e.g. one of `vector`, `grid`, `textTable`, `tin` (triangulated irregular network), etc. If the type is `vector`, also specify the geometry type as in the OGC Simple Feature Access standard (https://www.ogc.org/publications/standard/sfa/) , e.g. `POINT`, `LINESTRING`, `MULTIPOLYGON`, etc. 
-- `Spatial Reference System`: Specify the geographic or projected coordinate system for the study
-- `Temporal Coverage`: Specify the temporal extent of your study---i.e. the range of time represented by the data observations.
-- `Temporal Resolution`: Specify the temporal resolution of your study---i.e. the duration of time for which each observation represents or the revisit period for repeated observations
-- `Lineage`: Describe and/or cite data sources and/or methodological steps planned to create this data source.
-  - sampling scheme, including spatial sampling
-  - target sample size and method for determining sample size
-  - stopping criteria for data collection and sampling (e.g. sample size, time elapsed)
-  - de-identification / anonymization
-  - experimental manipulation
-- `Distribution`: Describe who will make the data available and how?
-- `Constraints`: Legal constraints for *access* or *use* to protect *privacy* or *intellectual property rights*
-- `Data Quality`: State any planned quality assessment
-- `Variables`: For each variable, enter the following information. If you have two or more variables per data source, you may want to present this information in table form (shown below)
-  - `Label`: variable name as used in the data or code
-  - `Alias`: intuitive natural language name
-  - `Definition`: Short description or definition of the variable. Include measurement units in description.
-  - `Type`: data type, e.g. character string, integer, real
-  - `Accuracy`: e.g. uncertainty of measurements
-  - `Domain`: Expected range of Maximum and Minimum of numerical data, or codes or categories of nominal data, or reference to a standard codebook
-  - `Missing Data Value(s)`: Values used to represent missing data and frequency of missing data observations
-  - `Missing Data Frequency`: Frequency of missing data observations: not yet known for data to be collected
+-   `Title`: Title of data source
+-   `Abstract`: Brief description of the data source
+-   `Spatial Coverage`: Specify the geographic extent of your study. This may be a place name and link to a feature in a gazetteer like GeoNames or OpenStreetMap, or a well known text (WKT) representation of a bounding box.
+-   `Spatial Resolution`: Specify the spatial resolution as a scale factor, description of the level of detail of each unit of observation (including administrative level of administrative areas), and/or or distance of a raster GRID size
+-   `Spatial Representation Type`: Specify the model of spatial data representation, e.g. one of `vector`, `grid`, `textTable`, `tin` (triangulated irregular network), etc. If the type is `vector`, also specify the geometry type as in the OGC Simple Feature Access standard (<https://www.ogc.org/publications/standard/sfa/>) , e.g. `POINT`, `LINESTRING`, `MULTIPOLYGON`, etc.
+-   `Spatial Reference System`: Specify the geographic or projected coordinate system for the study
+-   `Temporal Coverage`: Specify the temporal extent of your study---i.e. the range of time represented by the data observations.
+-   `Temporal Resolution`: Specify the temporal resolution of your study---i.e. the duration of time for which each observation represents or the revisit period for repeated observations
+-   `Lineage`: Describe and/or cite data sources and/or methodological steps planned to create this data source.
+    -   sampling scheme, including spatial sampling
+    -   target sample size and method for determining sample size
+    -   stopping criteria for data collection and sampling (e.g. sample size, time elapsed)
+    -   de-identification / anonymization
+    -   experimental manipulation
+-   `Distribution`: Describe who will make the data available and how?
+-   `Constraints`: Legal constraints for *access* or *use* to protect *privacy* or *intellectual property rights*
+-   `Data Quality`: State any planned quality assessment
+-   `Variables`: For each variable, enter the following information. If you have two or more variables per data source, you may want to present this information in table form (shown below)
+    -   `Label`: variable name as used in the data or code
+    -   `Alias`: intuitive natural language name
+    -   `Definition`: Short description or definition of the variable. Include measurement units in description.
+    -   `Type`: data type, e.g. character string, integer, real
+    -   `Accuracy`: e.g. uncertainty of measurements
+    -   `Domain`: Expected range of Maximum and Minimum of numerical data, or codes or categories of nominal data, or reference to a standard codebook
+    -   `Missing Data Value(s)`: Values used to represent missing data and frequency of missing data observations
+    -   `Missing Data Frequency`: Frequency of missing data observations: not yet known for data to be collected
 
 | Label | Alias | Definition | Type | Accuracy | Domain | Missing Data Value(s) | Missing Data Frequency |
-| :--: | :--: | :--: | :--: | :--: | :--: | :--: | :--: |
+|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|
 | variable1 | ... | ... | ... | ... | ... | ... | ... |
 | variable2 | ... | ... | ... | ... | ... | ... | ... |
 
 ### Primary data source2 name
 
-... same form as above...  
+...
+same form as above...\
 Metadata documents in the markdown `.md` format can be included directly with the `includeMarkdown()` function.
 This requires the `markdown` package.
 
 ### Secondary data source1 name
 
-- `Title`: Title of data source
-- `Abstract`: Brief description of the data source
-- `Spatial Coverage`: Specify the geographic extent of your study. This may be a place name and link to a feature in a gazetteer like GeoNames or OpenStreetMap, or a well known text (WKT) representation of a bounding box.
-- `Spatial Resolution`: Specify the spatial resolution as a scale factor, description of the level of detail of each unit of observation (including administrative level of administrative areas), and/or or distance of a raster GRID size
-- `Spatial Reference System`: Specify the geographic or projected coordinate system for the study
-- `Temporal Coverage`: Specify the temporal extent of your study---i.e. the range of time represented by the data observations.
-- `Temporal Resolution`: Specify the temporal resolution of your study---i.e. the duration of time for which each observation represents or the revisit period for repeated observations
-- `Lineage`: Describe and/or cite data sources and/or methodological steps used to create this data source
-- `Distribution`: Describe how the data is distributed, including any persistent identifier (e.g. DOI) or URL for data access
-- `Constraints`: Legal constraints for *access* or *use* to protect *privacy* or *intellectual property rights*
-- `Data Quality`: State result of quality assessment or state "Quality unknown"
-- `Variables`: For each variable, enter the following information. If you have two or more variables per data source, you may want to present this information in table form (shown below)
-  - `Label`: variable name as used in the data or code
-  - `Alias`: intuitive natural language name
-  - `Definition`: Short description or definition of the variable. Include measurement units in description.
-  - `Type`: data type, e.g. character string, integer, real
-  - `Accuracy`: e.g. uncertainty of measurements
-  - `Domain`: Range (Maximum and Minimum) of numerical data, or codes or categories of nominal data, or reference to a standard codebook
-  - `Missing Data Value(s)`: Values used to represent missing data and frequency of missing data observations
-  - `Missing Data Frequency`: Frequency of missing data observations
+-   `Title`: Title of data source
+-   `Abstract`: Brief description of the data source
+-   `Spatial Coverage`: Specify the geographic extent of your study. This may be a place name and link to a feature in a gazetteer like GeoNames or OpenStreetMap, or a well known text (WKT) representation of a bounding box.
+-   `Spatial Resolution`: Specify the spatial resolution as a scale factor, description of the level of detail of each unit of observation (including administrative level of administrative areas), and/or or distance of a raster GRID size
+-   `Spatial Reference System`: Specify the geographic or projected coordinate system for the study
+-   `Temporal Coverage`: Specify the temporal extent of your study---i.e. the range of time represented by the data observations.
+-   `Temporal Resolution`: Specify the temporal resolution of your study---i.e. the duration of time for which each observation represents or the revisit period for repeated observations
+-   `Lineage`: Describe and/or cite data sources and/or methodological steps used to create this data source
+-   `Distribution`: Describe how the data is distributed, including any persistent identifier (e.g. DOI) or URL for data access
+-   `Constraints`: Legal constraints for *access* or *use* to protect *privacy* or *intellectual property rights*
+-   `Data Quality`: State result of quality assessment or state "Quality unknown"
+-   `Variables`: For each variable, enter the following information. If you have two or more variables per data source, you may want to present this information in table form (shown below)
+    -   `Label`: variable name as used in the data or code
+    -   `Alias`: intuitive natural language name
+    -   `Definition`: Short description or definition of the variable. Include measurement units in description.
+    -   `Type`: data type, e.g. character string, integer, real
+    -   `Accuracy`: e.g. uncertainty of measurements
+    -   `Domain`: Range (Maximum and Minimum) of numerical data, or codes or categories of nominal data, or reference to a standard codebook
+    -   `Missing Data Value(s)`: Values used to represent missing data and frequency of missing data observations
+    -   `Missing Data Frequency`: Frequency of missing data observations
 
 | Label | Alias | Definition | Type | Accuracy | Domain | Missing Data Value(s) | Missing Data Frequency |
-| :--: | :--: | :--: | :--: | :--: | :--: | :--: | :--: |
+|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|
 | variable1 | ... | ... | ... | ... | ... | ... | ... |
 | variable2 | ... | ... | ... | ... | ... | ... | ... |
 
 ### Secondary data source2 name
 
-... same form as above...
+...
+same form as above...
 
-## Prior observations  
+## Prior observations
 
 Prior experience with the study area, prior data collection, or prior observation of the data can compromise the validity of a study, e.g. through p-hacking.
 Therefore, disclose any prior experience or observations at the time of study pre-registration here, with example text below:
 
-At the time of this study pre-registration, the authors had _____ prior knowledge of the geography of the study region with regards to the ____ phenomena to be studied.
-This study is related to ____ prior studies by the authors
+At the time of this study pre-registration, the authors had \_\_\_\_\_ prior knowledge of the geography of the study region with regards to the \_\_\_\_ phenomena to be studied.
+This study is related to \_\_\_\_ prior studies by the authors
 
 For each primary data source, declare the extent to which authors had already engaged with the data:
 
-- [ ] no data collection has started
-- [ ] pilot test data has been collected
-- [ ] data collection is in progress and data has not been observed
-- [ ] data collection is in progress and __% of data has been observed
-- [ ] data collection is complete and data has been observed. Explain how authors have already manipulated / explored the data.
+-   [ ] no data collection has started
+-   [ ] pilot test data has been collected
+-   [ ] data collection is in progress and data has not been observed
+-   [ ] data collection is in progress and \_\_% of data has been observed
+-   [ ] data collection is complete and data has been observed. Explain how authors have already manipulated / explored the data.
 
 For each secondary source, declare the extent to which authors had already engaged with the data:
 
-- [ ] data is not available yet
-- [ ] data is available, but only metadata has been observed
-- [ ] metadata and descriptive statistics have been observed
-- [ ] metadata and a pilot test subset or sample of the full dataset have been observed
-- [ ] the full dataset has been observed. Explain how authors have already manipulated / explored the data.
+-   [ ] data is not available yet
+-   [ ] data is available, but only metadata has been observed
+-   [ ] metadata and descriptive statistics have been observed
+-   [ ] metadata and a pilot test subset or sample of the full dataset have been observed
+-   [ ] the full dataset has been observed. Explain how authors have already manipulated / explored the data.
 
 If pilot test data has been collected or acquired, describe how the researchers observed and analyzed the pilot test, and the extent to which the pilot test influenced the research design.
 
@@ -234,21 +238,43 @@ If pilot test data has been collected or acquired, describe how the researchers 
 
 Given the research design and primary data to be collected and/or secondary data to be used, discuss common threats to validity and the approach to mitigating those threats, with an emphasis on geographic threats to validity.
 
-These include:
-  - uneven primary data collection due to geographic inaccessibility or other constraints
-  - multiple hypothesis testing
-  - edge or boundary effects
-  - the modifiable areal unit problem
-  - nonstationarity
-  - spatial dependence or autocorrelation
-  - temporal dependence or autocorrelation
-  - spatial scale dependency
-  - spatial anisotropies
-  - confusion of spatial and a-spatial causation
-  - ecological fallacy
-  - uncertainty e.g. from spatial disaggregation, anonymization, differential privacy
+These include: - uneven primary data collection due to geographic inaccessibility or other constraints - multiple hypothesis testing - edge or boundary effects - the modifiable areal unit problem - nonstationarity - spatial dependence or autocorrelation - temporal dependence or autocorrelation - spatial scale dependency - spatial anisotropies - confusion of spatial and a-spatial causation - ecological fallacy - uncertainty e.g. from spatial disaggregation, anonymization, differential privacy
 
 ## Data transformations
+
+### (Attempt) Reproduce heat index
+
+#### Convert Tmax and VPDmax from `.bil` to `.tif`
+
+#### Create heat index
+
+#### Convert heat index to WBGTmax
+
+### Step 1: Process WBGT prison data
+
+#### Create RDS of of WBGTmax daily for each year by prison
+
+##### Join WBGTmax data to prison data
+
+#### Prepare WBGT prison summary data
+
+### Reproduce Fig. 1
+
+#### Reproduce Fig. 1 a
+
+#### Reproduce Fig. 1 b
+
+### Reproduce Fig. 2
+
+#### Reproduce Fig. 2 a
+
+#### Reproduce Fig. 2 b
+
+#### Reproduce Fig. 2 c
+
+## Planned deviation for reproduction
+
+### 
 
 Describe all data transformations planned to prepare data sources for analysis.
 This section should explain with the fullest detail possible how to transform data from the **raw** state at the time of acquisition or observation, to the pre-processed **derived** state ready for the main analysis.
@@ -284,11 +310,11 @@ If a prior registration *does* exist, explain the rationale for revising the reg
 
 # Acknowledgements
 
-- `Funding Name`: name of funding for the project
-- `Funding Title`: title of project grant
-- `Award info URI`: web address for award information
-- `Award number`: award number
+-   `Funding Name`: name of funding for the project
+-   `Funding Title`: title of project grant
+-   `Award info URI`: web address for award information
+-   `Award number`: award number
 
-This report is based upon the template for Reproducible and Replicable Research in Human-Environment and Geographical Sciences, DOI:[10.17605/OSF.IO/W29MQ](https://doi.org/10.17605/OSF.IO/W29MQ)
+This report is based upon the template for Reproducible and Replicable Research in Human-Environment and Geographical Sciences, [DOI:[10.17605/OSF.IO/W29MQ](DOI:%5B10.17605/OSF.IO/W29MQ){.uri}](<https://doi.org/10.17605/OSF.IO/W29MQ>)
 
 # References
