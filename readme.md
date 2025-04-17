@@ -1,8 +1,8 @@
 # Reproduction of "Hazardous heat exposure among incarcerated people in the United States" Tuholske et. al. (2024)
 ## Contributors
 
-- Sam Barnard\*, sbbarnard@middlebury.edu, @padutchfan123, ORCID link, Middlebury College
-- Matthew Mills, mmills@middlebury.edu, @mkahngmills, ORCID link, Middlebury College
+- Sam Barnard\*, sbbarnard@middlebury.edu, @padutchfan123, Middlebury College
+- Matthew Mills, mmills@middlebury.edu, @mkahngmills, Middlebury College
 
 \* Corresponding author and creator
 
@@ -22,16 +22,12 @@ By reproducing the exploratory data analysis done in Tuholske et al. (2024), we 
 - `Key words`: heat, climate change, prisons, US Lower 48, reproduction.
 - `Subject`: Social and Behavioral Sciences: Geography: Geographic Information Sciences [BePress Taxonomy](http://digitalcommons.bepress.com/cgi/viewcontent.cgi?article=1008&context=reference)
 - `Date created`: 04-07-2025
-- `Date modified`: date of most recent revision
+- `Date modified`: 04-17-2025
 - `Spatial Coverage`: United States Lower 48
-- `Spatial Resolution`: 4km raster squares? Specify the spatial resolution as a scale factor, description of the level of detail of each unit of observation (including administrative level of administrative areas), and/or or distance of a raster GRID size
+- `Spatial Resolution`: Carceral facility points and States
 - `Spatial Reference System`: Specify the geographic or projected coordinate system for the study
 - `Temporal Coverage`: 1982-2020
 - `Temporal Resolution`: 1 year
-- `Funding Name`: n/a
-- `Funding Title`: n/a
-- `Award info URI`: n/a
-- `Award number`: n/a
 
 ## Related to
 
