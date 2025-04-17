@@ -12,16 +12,6 @@ nocite: '@*'
 bibliography: "../../software.bib"
 ---
 
-# Instructions
-
-This is an R Markdown document.
-Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents.
-For more details on using R Markdown see <https://rmarkdown.rstudio.com/lesson-1.html>.
-In the header section above, you can configure [options for this document](https://bookdown.org/yihui/rmarkdown/html-document.html), including title, author(s), and additional style and output options.
-The `nocite` and `bibliography` lines automatically add a bibliography for the software packages you have used.
-Remove the `nocite` line to suppress references you haven't cited.
-You may delete this instruction section.
-
 # Abstract
 
 Write a brief abstract about your research project.
@@ -242,52 +232,61 @@ These include: - uneven primary data collection due to geographic inaccessibilit
 
 ## Data transformations
 
-### (Attempt) Reproduce heat index
-
-#### Convert Tmax and VPDmax from `.bil` to `.tif`
-
-#### Create heat index
-
-#### Convert heat index to WBGTmax
-
-### Step 1: Process WBGT prison data
-
-#### Create RDS of of WBGTmax daily for each year by prison
-
-##### Join WBGTmax data to prison data
-
-#### Prepare WBGT prison summary data
-
 ### Reproduce Fig. 1
 
-#### Reproduce Fig. 1 a
+#### Step 1: Join author-provided WBGTmax by day grid data to author-provided carceral facility point data
 
-#### Reproduce Fig. 1 b
+Use `st_join()`
+
+*Result:* Rds table of WBGTmax by day by prison
+
+#### Step 2: Filter result by days when WBGTmax exceeded 28 degrees C
+
+#### Step 3: Group by carceral facility type and year
+
+*Result:* Rds table with variables\
+- prison facility
+- facility type
+- prison population
+- n days exceeding 28 degrees
+- year
+
+#### Step 4: Create Fig. 1a and b using results
 
 ### Reproduce Fig. 2
 
-#### Reproduce Fig. 2 a
+#### Step 1: Begin with result from Step 3 from reproduction of Fig. 1
 
-#### Reproduce Fig. 2 b
+#### Step 2: Spatial join county population by year data
 
-#### Reproduce Fig. 2 c
+*Result:* Rds table with variables\
+- prison facility
+- facility type
+- prison population
+- county
+- population
+- n days exceeding 28 degrees
+- year
 
-## Planned deviation for reproduction
+#### Step 3: Population-weighted aggregation
 
-### 
+Aggregate data into states
 
-Describe all data transformations planned to prepare data sources for analysis.
-This section should explain with the fullest detail possible how to transform data from the **raw** state at the time of acquisition or observation, to the pre-processed **derived** state ready for the main analysis.
-Including steps to check and mitigate sources of **bias** and **threats to validity**.
-The method may anticipate **contingencies**, e.g. tests for normality and alternative decisions to make based on the results of the test.
-More specifically, all the **geographic** and **variable** transformations required to prepare input data as described in the data and variables section above to match the study's spatio-temporal characteristics as described in the study metadata and study design sections.
-Visual workflow diagrams may help communicate the methodology in this section.
+#### Step 4: Create Fig. 2a, b and c using results
 
-Examples of **geographic** transformations include coordinate system transformations, aggregation, disaggregation, spatial interpolation, distance calculations, zonal statistics, etc.
+## Planned deviation for reproduction: Investigating temperature threshold
 
-Examples of **variable** transformations include standardization, normalization, constructed variables, imputation, classification, etc.
+Repeat workflow for reproducing figures 1 and 2, instead filtering for days when WBGTmax exceeded 29.4 degrees C (85 degrees F standard informed by other literature)
 
-Be sure to include any steps planned to **exclude** observations with *missing* or *outlier* data, to **group** observations by *attribute* or *geographic* criteria, or to **impute** missing data or apply spatial or temporal **interpolation**.
+## Planned deviation for reproduction: Investigating sources of uncertainy/error/bias
+
+### How many open facilities had a population of -999? (Potential source of uncertainy)
+
+#### Step 1: Select facilities with population of -999 from author-provided carceral facilities data.
+
+Report number of facilities compared to authors' number.
+
+#### Step 2: Map result.
 
 ## Analysis
 
