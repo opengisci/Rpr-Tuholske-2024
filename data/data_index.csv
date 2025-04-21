@@ -1,1 +1,7 @@
 path,name,metadata,description
+raw/public/population,"Population pre_1990, vintage_2020",metadata_population.md,County population data for study period
+raw/public/shapefiles/Prison_Boundaries,Prison boundary shapefile,metadata_Prison_Boundaries.md,
+raw/public/shapefiles/states,State shapefile,,
+raw/public/wbgt_raw/prison,weighted_area_raster_prison_wbgtmax_daily_(year).rds,metadata_wbgt_prison.md,"Prison level daily WBGTmax, weighted by area, from 1982-2020"
+raw/public/wbgt_raw/state,weighted_area_raster_prison_wbgtmax_daily_(year).rds,metadata_wbgt_state.md,"County level daily WBGTmax, weighted by area, from 1982-2020"
+raw/public/extraneous,Extraneous data sources,N/A,"Extraneous data from the original study repository, used for exploratory purposes"
