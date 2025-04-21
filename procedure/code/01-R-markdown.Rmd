@@ -14,14 +14,15 @@ bibliography: "../../software.bib"
 
 # Abstract
 
-This study is a *reproduction* of:
-Tuholske, C., Lynch, V.D., Spriggs, R. et al. Hazardous heat exposure among incarcerated people in the United States. Nat Sustain 7, 394–398 (2024). https://doi.org/10.1038/s41893-024-01293-y
-[Git Repository](https://github.com/sparklabnyc/temperature_prisons_united_states_2024)
+This study is a *reproduction* of: Tuholske, C., Lynch, V.D., Spriggs, R.
+et al.
+Hazardous heat exposure among incarcerated people in the United States.
+Nat Sustain 7, 394–398 (2024).
+<https://doi.org/10.1038/s41893-024-01293-y> [Git Repository](https://github.com/sparklabnyc/temperature_prisons_united_states_2024)
 
 By reproducing the exploratory data analysis done in Tuholske et al. (2024), we seek to...
-*1.* Identify the temporal resolution at which authors use population data to calculate population weighted hazardous heat days
-*2.* Understand the population weighting mechanism in state-level hazardous heat calculations. 
-*3.* Evaluate the effectiveness of the author's methods compared to similar research. 
+*1.* Identify the temporal resolution at which authors use population data to calculate population weighted hazardous heat days *2.* Understand the population weighting mechanism in state-level hazardous heat calculations.
+*3.* Evaluate the effectiveness of the author's methods compared to similar research.
 
 # Study metadata
 
@@ -45,7 +46,10 @@ By reproducing the exploratory data analysis done in Tuholske et al. (2024), we 
 
 # Study design
 
-This study is a **reproduction study**, and the original study is more **exploratory** in design. The primary objective for exploration through research and analysis investigated in the original study was exposure to hazardous heat in carceral facilities in the continental U.S. The authors wanted to examine how exposure to hazardous heat changed over time from 1982-2020, as well as how exposure within carceral facilities compared to exposure in the rest of the state. In general, determining the spatial distribution of carceral facilities with higher levels of hazardous heat exposure was also an objective of the original paper
+This study is a **reproduction study**, and the original study is more **exploratory** in design.
+The primary objective for exploration through research and analysis investigated in the original study was exposure to hazardous heat in carceral facilities in the continental U.S.
+The authors wanted to examine how exposure to hazardous heat changed over time from 1982-2020, as well as how exposure within carceral facilities compared to exposure in the rest of the state.
+In general, determining the spatial distribution of carceral facilities with higher levels of hazardous heat exposure was also an objective of the original paper
 
 # Materials and procedure
 
@@ -190,6 +194,8 @@ same form as above...
 
 ## Prior observations
 
+We have the derived data to work off of, we have neither visualized or analyzed prison data or WBGTmax temperature data before.
+
 At the time of this study pre-registration, the authors had \_\_\_\_\_ prior knowledge of the geography of the study region with regards to the \_\_\_\_ phenomena to be studied.
 This study is related to \_\_\_\_ prior studies by the authors
 
@@ -219,6 +225,12 @@ These include: - uneven primary data collection due to geographic inaccessibilit
 
 ## Data transformations
 
+Describe data transformations conducted by the authors that are not feasible for reproduction. 
+
+Explain what we believe the authors did for WBGTmax grid - document as data source we do not have access to, and its lineage
+
+Give readers a sense of the workflow that we are not doing/unable to do
+
 ### Reproduce Fig. 1
 
 #### Step 1: Join author-provided WBGTmax by day grid data to author-provided carceral facility point data
@@ -231,12 +243,10 @@ Use `st_join()`
 
 #### Step 3: Group by carceral facility type and year
 
+Count to produce summary of days exceeded per year by facility
+
 *Result:* Rds table with variables\
-- prison facility
-- facility type
-- prison population
-- n days exceeding 28 degrees
-- year
+- prison facility - facility type - prison population - n days exceeding 28 degrees - year
 
 #### Step 4: Create Fig. 1a and b using results
 
@@ -247,17 +257,15 @@ Use `st_join()`
 #### Step 2: Spatial join county population by year data
 
 *Result:* Rds table with variables\
-- prison facility
-- facility type
-- prison population
-- county
-- population
-- n days exceeding 28 degrees
-- year
+- prison facility - facility type - prison population - county - population - n days exceeding 28 degrees - year
 
 #### Step 3: Population-weighted aggregation
 
 Aggregate data into states
+
+weighted sum of days exceeded across all counties of the state
+
+sum of days exceeded multiplied by (Ratio of county population / state population)
 
 #### Step 4: Create Fig. 2a, b and c using results
 
@@ -277,27 +285,33 @@ Report number of facilities compared to authors' number.
 
 ## Analysis
 
-Describe the methods of analysis that will directly test the hypotheses or provide results to answer the research questions.
-This section should explicitly define any spatial / statistical *models* and their *parameters*, including *grouping* criteria, *weighting* criteria, and *significance thresholds*.
-Also explain any follow-up analyses or validations.
+If anything - Fig 2c - comparison of prisons to state
 
 # Results
+
+Move steps that create maps and graphs into results
 
 Present figures (reproduced from original study and planned deviations).
 
 # Discussion
 
 Describe how the results are to be interpreted *vis a vis* each hypothesis or research question.
+Research that maximum daily doesn't matter as much for heat stress - long stretches of nighttime lows are more serious
 
 # Integrity Statement
+
+This is the first version of our pre-analysis plan
 
 Include an integrity statement - The authors of this preregistration state that they completed this preregistration to the best of their knowledge and that no other preregistration exists pertaining to the same hypotheses and research.
 If a prior registration *does* exist, explain the rationale for revising the registration here.
 
 # Acknowledgements
 
-This report is based upon the template for Reproducible and Replicable Research in Human-Environment and Geographical Sciences, [DOI:[10.17605/OSF.IO/W29MQ](DOI:%5B10.17605/OSF.IO/W29MQ){.uri}](<https://doi.org/10.17605/OSF.IO/W29MQ>)
+This report is based upon the template for Reproducible and Replicable Research in Human-Environment and Geographical Sciences, [DOI:[10.17605/OSF.IO/W29MQ](DOI:%5B10.17605/OSF.IO/W29MQ){.uri}](https://doi.org/10.17605/OSF.IO/W29MQ)
 
 ## References
 
-> Kedron, P., & Holler, J. (2023). Template for Reproducible and Replicable Research in Human-Environment and Geographical Sciences. https://doi.org/10.17605/OSF.IO/W29MQ
+> Kedron, P., & Holler, J.
+> (2023).
+> Template for Reproducible and Replicable Research in Human-Environment and Geographical Sciences.
+> <https://doi.org/10.17605/OSF.IO/W29MQ>
