@@ -4,7 +4,7 @@
 -   `Spatial Resolution`: Prison by prison ID
 -   `Spatial Representation Type`: N/A
 -   `Spatial Reference System`: N/A
--   `Temporal Coverage`: Year
+-   `Temporal Coverage`: Each year, 1982-2020
 -   `Temporal Resolution`: Day of year
 -   `Lineage`:
     -   Heat data acquired from Parameter-elevation Regressions on Independent Slopes Model (PRISM) [dataset](https://prism.oregonstate.edu/recent/)

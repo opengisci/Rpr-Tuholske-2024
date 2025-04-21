@@ -1,8 +1,8 @@
 -   `Title`: population (pre_1990 & vintage_2020)
 -   `Abstract`: Population data representing different age groups (10 year increments) from 0-5 years old up to 85 years old by sex
 -   `Spatial Coverage`: Continental U.S.
--   `Spatial Resolution`: US counties by FIPS code
--   `Spatial Representation Type`: No geometry
+-   `Spatial Resolution`: County by FIPS Code
+-   `Spatial Representation Type`: N/A
 -   `Spatial Reference System`: N/A
 -   `Temporal Coverage`: Each year, 1982-2020
 -   `Temporal Resolution`: Month
