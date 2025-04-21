@@ -12,7 +12,7 @@
     -   WBGTmax estimated by authors using high-resolution (4 km) daily maximum 2 m air temperature data (Tmax), and maximum vapour pressure deficit data (VPDmax)
 -   `Distribution`: Data available in original study's [git repository](https://github.com/sparklabnyc/temperature_prisons_united_states_2024)
 -   `Constraints`: Open access Creative Commons Attribution 4.0 International License,
--   `Data Quality`: Data lacks sufficient documentation in the original study repository/resources, further, the link to the HIFLD data no longer works.
+-   `Data Quality`: Data lacks sufficient documentation in the original study repository/resources. The original link to the HIFLD data (from the citation) no longer works, however HIFLD data can now be found [here](https://hifld-geoplatform.hub.arcgis.com/).
 
 | Label | Alias | Definition | Type | Accuracy | Domain | Missing Data Value(s) | Missing Data Frequency |
 |:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|

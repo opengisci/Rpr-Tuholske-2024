@@ -7,10 +7,9 @@
 -   `Temporal Coverage`: Each year, 1982-2020
 -   `Temporal Resolution`: Month
 -   `Lineage`: Acquired from census, pre-1990 and post-1990 data standardized
--   `Distribution`: Describe who will make the data available and how?
+-   `Distribution`: Data available in original study's [git repository](https://github.com/sparklabnyc/temperature_prisons_united_states_2024)
 -   `Constraints`: Public domain
--   `Data Quality`: Unclear lineage
--   `Variables`:
+-   `Data Quality`: Unclear lineage documentation
 
 | Label | Alias | Definition | Type | Accuracy | Domain | Missing Data Value(s) | Missing Data Frequency |
 |:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|
