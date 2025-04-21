@@ -27,9 +27,9 @@ By reproducing the exploratory data analysis done in Tuholske et al. (2024), we 
 # Study metadata
 
 -   `Key words`: Comma-separated list of keywords (tags) for searchability. Geographers often use one or two keywords each for: theory, geographic context, and methods.
--   `Subject`: select from the [BePress Taxonomy](http://digitalcommons.bepress.com/cgi/viewcontent.cgi?article=1008&context=reference)
--   `Date created`: date when project was started
--   `Date modified`: date of most recent revision
+-   `Subject`: Social and Behavioral Sciences: Geography: Geographic Information Sciences, Human Geography, Nature and Society Relations
+-   `Date created`: 04/14/25
+-   `Date modified`: 04/21/25
 -   `Spatial Coverage`: United States Lower 48
 -   `Spatial Resolution`: Carceral facility points and States
 -   `Spatial Reference System`: Specify the geographic or projected coordinate system for the study, e.g. EPSG:4326
