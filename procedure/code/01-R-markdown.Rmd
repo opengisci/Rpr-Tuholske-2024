@@ -225,6 +225,8 @@ These include: - uneven primary data collection due to geographic inaccessibilit
 
 ## Data transformations
 
+Planned deviation: we will not attempt x because the data is .... therefore we will skip to ...
+
 Describe data transformations conducted by the authors that are not feasible for reproduction. 
 
 Explain what we believe the authors did for WBGTmax grid - document as data source we do not have access to, and its lineage
@@ -294,6 +296,10 @@ Move steps that create maps and graphs into results
 Present figures (reproduced from original study and planned deviations).
 
 # Discussion
+
+what are the implications of us being able to recreate or not recreate the figures? why does it matter for this to be reproducible
+
+mention groundhog usage for sustainable reproduction
 
 Describe how the results are to be interpreted *vis a vis* each hypothesis or research question.
 Research that maximum daily doesn't matter as much for heat stress - long stretches of nighttime lows are more serious
