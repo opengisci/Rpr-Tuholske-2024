@@ -55,11 +55,44 @@ In general, determining the spatial distribution of carceral facilities with hig
 
 ## Computational environment
 
+### Original study computational environment
+
+The original study data transformations and analysis were completed primarily in R using Rmd documents, as well as python. The versions of R and Python used are not disclosed, but would have been R 4.3.3 or earlier, and Python 3.12 or earlier.
+
+In the original study, R packages are called in across different scripts. However, it seems that the important ones for this study are:
+
+```{r eval=FALSE}
+original_study_packages <- c(
+  "dplyr", 
+  "data.table", 
+  "maptools",
+  "mapproj",
+  "rgeos",
+  "rgdal",
+  "RColorBrewer",
+  "ggplot2",
+  "raster", # planned deviation: we will be using `stars` in our reproduction
+  "sp", # planned deviation: we will be using `sf` in our reproduction
+  "plyr",
+  "graticule",
+  "zoo",
+  "purrr",
+  "cowplot",
+  "janitor"
+  )
+```
+
+### Prepare reproduction computational environment
+
+For the reproduction study, we will be using R version 4.4.2, and the `groundhog` package to maintain package consistency. All packages used will be up to date as of 2025-02-01. 
+
+We plan on using the packages `tidyverse`, `here`, `markdown`, `htmltools`, `dplyr`, `sf`, and `stars`. As we encounter the need for other packages in our implimentation of the code, we will make note of them as unplanned deviations.
+
 ```{r environment-setup, include = FALSE}
 # record all the packages you are using here
 # this includes any calls to library(), require(),
 # and double colons such as here::i_am()
-packages <- c("tidyverse", "here", "markdown", "htmltools")
+packages <- c("tidyverse", "here", "markdown", "htmltools", "dplyr", "sf", "stars")
 
 # force all conflicts to become errors
 # if you load dplyr and use filter(), R has to guess whether you mean dplyr::filter() or stats::filter()
@@ -109,6 +142,12 @@ knitr::opts_chunk$set(
 
 ## Data and variables
 
+We are going to use data from the original study's git repository (linked on top level readme). This includes:
+    - Population data for the study period
+    - Prison boundary polygons with facility information 
+    - State polygons
+    - WBGT data, at prison point and state levels
+
 ### Population Data
 
 ```{r}
@@ -133,7 +172,9 @@ includeMarkdown(
 )
 ```
 
-### WBGT Data - Prison Level
+### WBGT Data
+
+#### WBGT Data - Prison Level
 
 ```{r}
 includeMarkdown(
@@ -141,7 +182,7 @@ includeMarkdown(
 )
 ```
 
-### WBGT Data - State Level
+#### WBGT Data - State Level
 
 ```{r}
 includeMarkdown(
@@ -151,29 +192,27 @@ includeMarkdown(
 
 ## Prior observations
 
-At the time of this pre analysis plan, we have the derived data to work off of, we have neither visualized or analyzed prison data or WBGTmax temperature data before.
-
-This study 
+At the time of this pre-analysis plan, we have the derived data to work off of, and we have examined some of the csv tables. We have neither visualized nor analyzed prison data or WBGTmax temperature data before.
 
 ## Bias and threats to validity
 
-Given the research design and primary data to be collected and/or secondary data to be used, discuss common threats to validity and the approach to mitigating those threats, with an emphasis on geographic threats to validity.
+There are no statistical tests in this study, so issues such as spatial heterogeneity/anistropy/autocorrelation do not matter. Scale could be a threat to validity, because county populations are aggregated to calculate the number of population-weighted heat days in each state. There is also a scale issue measuring micro-climate conditions at prison boundaries compared to 4 km temperature data. Further, there is no specification of how heat days are calculated within each county given that counties do no map neatly to 4 km by 4km grids used to calculate hazardous heat days. The ways in which the county boundaries are drawn also supports the argument that there is a Modifiable Area Unit Problem.
 
-These include: - uneven primary data collection due to geographic inaccessibility or other constraints - multiple hypothesis testing - edge or boundary effects - the modifiable areal unit problem - nonstationarity - spatial dependence or autocorrelation - temporal dependence or autocorrelation - spatial scale dependency - spatial anisotropies - confusion of spatial and a-spatial causation - ecological fallacy - uncertainty e.g. from spatial disaggregation, anonymization, differential privacy
+Both the scale and boundary issues also have a temporal component that may create threats to validity. 
 
 ## Data transformations
 
-Planned deviation: we will not attempt x because the data is .... therefore we will skip to ...
+### Planned deviation: 
+We will not attempt to produce the original study's WBGTmax grid because the methods are unclear, and therefore we will skip to joining the author-provided WBGTmax by day grid data to the prison points.
 
-Describe data transformations conducted by the authors that are not feasible for reproduction. 
+(When implimenting plan) Explain what we believe the authors did to produce the WBGTmax grid and preliminary steps
 
-Explain what we believe the authors did for WBGTmax grid - document as data source we do not have access to, and its lineage
-
-Give readers a sense of the workflow that we are not doing/unable to do
+### Transform data to create Figures 1a, 1b
+(More descriptive segment of original study's workflow)
 
 #### Step 1: Join author-provided WBGTmax by day grid data to author-provided carceral facility point data
 
-Use `st_join()`
+Use `st_join()` or `st_extract()`
 
 *Result:* Rds table of WBGTmax by day by prison
 
@@ -186,57 +225,60 @@ Count to produce summary of days exceeded per year by facility
 *Result:* Rds table with variables\
 - prison facility - facility type - prison population - n days exceeding 28 degrees - year
 
-#### Step 4: Begin with result from Step 3 from reproduction of Fig. 1
+## Analysis
+
+### Analyze data to create Figures 2a, 2b and 2c
+Figure 2b, 2c - results are based on linear regression models
+
+#### Step 4: Begin with result from Step 3
 
 #### Step 5: Spatial join county population by year data
 
 *Result:* Rds table with variables\
-- prison facility - facility type - prison population - county - population - n days exceeding 28 degrees - year
+-  prison facility 
+-  facility type 
+-  prison population 
+-  county 
+-  population
+-  n days exceeding 28 degrees 
+-  year
 
 #### Step 6: Population-weighted aggregation
 
 Aggregate data into states
 
-weighted sum of days exceeded across all counties of the state
+Weighted sum of days exceeded across all counties of the state
 
-sum of days exceeded multiplied by (Ratio of county population / state population)
+Sum of days exceeded multiplied by (Ratio of county population / state population)
 
-## Planned deviation for reproduction: Investigating temperature threshold
+## Planned deviations for reproduction: 
+
+### Deviation 1: Investigating temperature threshold
 
 Repeat workflow for reproducing figures 1 and 2, instead filtering for days when WBGTmax exceeded 29.4 degrees C (85 degrees F standard informed by other literature)
 
-## Planned deviation for reproduction: Investigating sources of uncertainy/error/bias
+### Deviation 2: Investigating sources of uncertainy/error/bias
 
-### How many open facilities had a population of -999? (Potential source of uncertainy)
+#### How many open facilities had a population of -999? (Potential source of uncertainy)
 
 #### Step 7: Select facilities with population of -999 from author-provided carceral facilities data.
 
 Report number of facilities compared to authors' number.
 
-## Analysis
-
-If anything - Fig 2c - comparison of prisons to state
-
-# Results
+# Results: Present figures (reproduced from original study and planned deviations).
 
 ## Create Fig. 1a and b using results from step 3
 
 ## Create Fig. 2a, b and c using results from step 6
 
-## Map result from step 7 to examine planned deviation
-
-Move steps that create maps and graphs into results
-
-Present figures (reproduced from original study and planned deviations).
+## Map result from step 7 to examine data quality issue
 
 # Discussion
 
-what are the implications of us being able to recreate or not recreate the figures? why does it matter for this to be reproducible
-
-mention groundhog usage for sustainable reproduction
-
-Describe how the results are to be interpreted *vis a vis* each hypothesis or research question.
-Research that maximum daily doesn't matter as much for heat stress - long stretches of nighttime lows are more serious
+What are the implications of us being able to recreate or not recreate the figures? 
+Why does it matter for the original study to be reproducible?
+Mention significance of groundhog usage for sustainable reproduction
+Discuss research suggesting maximum daily temperature doesn't matter as much for heat stress, instead long stretches of night time lows are more serious
 
 # Integrity Statement
 
