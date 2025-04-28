@@ -1,5 +1,5 @@
 ---
-title: "Pre-Analysis Plan Version 1"
+title: "Analysis Plan Version 1"
 author: "Samuel Barnard and Matthew Mills"
 date: "`r Sys.Date()`"
 output: html_document
