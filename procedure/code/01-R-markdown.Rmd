@@ -57,9 +57,11 @@ In general, determining the spatial distribution of carceral facilities with hig
 
 ### Original study computational environment
 
-The original study data transformations and analysis were completed primarily in R using Rmd documents, as well as python. The versions of R and Python used are not disclosed, but would have been R 4.3.3 or earlier, and Python 3.12 or earlier.
+The original study data transformations and analysis were completed primarily in R using Rmd documents, as well as python.
+The versions of R and Python used are not disclosed, but would have been R 4.3.3 or earlier, and Python 3.12 or earlier.
 
-In the original study, R packages are called in across different scripts. However, it seems that the important ones for this study are:
+In the original study, R packages are called in across different scripts.
+However, it seems that the important ones for this study are:
 
 ```{r eval=FALSE}
 original_study_packages <- c(
@@ -84,9 +86,11 @@ original_study_packages <- c(
 
 ### Prepare reproduction computational environment
 
-For the reproduction study, we will be using R version 4.4.2, and the `groundhog` package to maintain package consistency. All packages used will be up to date as of 2025-02-01. 
+For the reproduction study, we will be using R version 4.4.2, and the `groundhog` package to maintain package consistency.
+All packages used will be up to date as of 2025-02-01.
 
-We plan on using the packages `tidyverse`, `here`, `markdown`, `htmltools`, `dplyr`, `sf`, and `stars`. As we encounter the need for other packages in our implimentation of the code, we will make note of them as unplanned deviations.
+We plan on using the packages `tidyverse`, `here`, `markdown`, `htmltools`, `dplyr`, `sf`, and `stars`.
+As we encounter the need for other packages in our implimentation of the code, we will make note of them as unplanned deviations.
 
 ```{r environment-setup, include = FALSE}
 # record all the packages you are using here
@@ -142,11 +146,8 @@ knitr::opts_chunk$set(
 
 ## Data and variables
 
-We are going to use data from the original study's git repository (linked on top level readme). This includes:
-    - Population data for the study period
-    - Prison boundary polygons with facility information 
-    - State polygons
-    - WBGT data, at prison point and state levels
+We are going to use data from the original study's git repository (linked on top level readme).
+This includes: - Population data for the study period - Prison boundary polygons with facility information - State polygons - WBGT data, at prison point and state levels
 
 ### Population Data
 
@@ -192,22 +193,29 @@ includeMarkdown(
 
 ## Prior observations
 
-At the time of this pre-analysis plan, we have the derived data to work off of, and we have examined some of the csv tables. We have neither visualized nor analyzed prison data or WBGTmax temperature data before.
+At the time of this pre-analysis plan, we have the derived data to work off of, and we have examined some of the csv tables.
+We have neither visualized nor analyzed prison data or WBGTmax temperature data before.
 
 ## Bias and threats to validity
 
-There are no statistical tests in this study, so issues such as spatial heterogeneity/anistropy/autocorrelation do not matter. Scale could be a threat to validity, because county populations are aggregated to calculate the number of population-weighted heat days in each state. There is also a scale issue measuring micro-climate conditions at prison boundaries compared to 4 km temperature data. Further, there is no specification of how heat days are calculated within each county given that counties do no map neatly to 4 km by 4km grids used to calculate hazardous heat days. The ways in which the county boundaries are drawn also supports the argument that there is a Modifiable Area Unit Problem.
+There are no statistical tests in this study, so issues such as spatial heterogeneity/anistropy/autocorrelation do not matter.
+Scale could be a threat to validity, because county populations are aggregated to calculate the number of population-weighted heat days in each state.
+There is also a scale issue measuring micro-climate conditions at prison boundaries compared to 4 km temperature data.
+Further, there is no specification of how heat days are calculated within each county given that counties do no map neatly to 4 km by 4km grids used to calculate hazardous heat days.
+The ways in which the county boundaries are drawn also supports the argument that there is a Modifiable Area Unit Problem.
 
-Both the scale and boundary issues also have a temporal component that may create threats to validity. 
+Both the scale and boundary issues also have a temporal component that may create threats to validity.
 
 ## Data transformations
 
-### Planned deviation: 
+### Planned deviation:
+
 We will not attempt to produce the original study's WBGTmax grid because the methods are unclear, and therefore we will skip to joining the author-provided WBGTmax by day grid data to the prison points.
 
-(When implimenting plan) Explain what we believe the authors did to produce the WBGTmax grid and preliminary steps
+(When implementing plan) Explain what we believe the authors did to produce the WBGTmax grid and preliminary steps
 
 ### Transform data to create Figures 1a, 1b
+
 (More descriptive segment of original study's workflow)
 
 #### Step 1: Join author-provided WBGTmax by day grid data to author-provided carceral facility point data
@@ -223,11 +231,20 @@ Use `st_join()` or `st_extract()`
 Count to produce summary of days exceeded per year by facility
 
 *Result:* Rds table with variables\
-- prison facility - facility type - prison population - n days exceeding 28 degrees - year
+- prison facility
+
+\- facility type
+
+\- prison population
+
+\- n days exceeding 28 degrees
+
+\- year
 
 ## Analysis
 
 ### Analyze data to create Figures 2a, 2b and 2c
+
 Figure 2b, 2c - results are based on linear regression models
 
 #### Step 4: Begin with result from Step 3
@@ -235,13 +252,19 @@ Figure 2b, 2c - results are based on linear regression models
 #### Step 5: Spatial join county population by year data
 
 *Result:* Rds table with variables\
--  prison facility 
--  facility type 
--  prison population 
--  county 
--  population
--  n days exceeding 28 degrees 
--  year
+- prison facility
+
+\- facility type
+
+\- prison population
+
+\- county
+
+\- population
+
+\- n days exceeding 28 degrees
+
+\- year
 
 #### Step 6: Population-weighted aggregation
 
@@ -251,15 +274,15 @@ Weighted sum of days exceeded across all counties of the state
 
 Sum of days exceeded multiplied by (Ratio of county population / state population)
 
-## Planned deviations for reproduction: 
+## Planned deviations for reproduction:
 
 ### Deviation 1: Investigating temperature threshold
 
 Repeat workflow for reproducing figures 1 and 2, instead filtering for days when WBGTmax exceeded 29.4 degrees C (85 degrees F standard informed by other literature)
 
-### Deviation 2: Investigating sources of uncertainy/error/bias
+### Deviation 2: Investigating sources of uncertainty/error/bias
 
-#### How many open facilities had a population of -999? (Potential source of uncertainy)
+#### How many open facilities had a population of -999? (Potential source of uncertainty)
 
 #### Step 7: Select facilities with population of -999 from author-provided carceral facilities data.
 
@@ -275,14 +298,15 @@ Report number of facilities compared to authors' number.
 
 # Discussion
 
-What are the implications of us being able to recreate or not recreate the figures? 
+What are the implications of us being able to recreate or not recreate the figures?
 Why does it matter for the original study to be reproducible?
-Mention significance of groundhog usage for sustainable reproduction
-Discuss research suggesting maximum daily temperature doesn't matter as much for heat stress, instead long stretches of night time lows are more serious
+Mention significance of groundhog usage for sustainable reproduction.
+Discuss research suggesting maximum daily temperature doesn't matter as much for heat stress, and how long stretches of night time lows may be more serious.
 
 # Integrity Statement
 
-This is the first version of our pre-analysis plan. Any deviations in our workflow will be documented as unplanned deviations.
+This is the first version of our pre-analysis plan.
+Any deviations in our workflow will be documented as unplanned deviations.
 
 # Acknowledgements
 
