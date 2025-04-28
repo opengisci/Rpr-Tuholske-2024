@@ -125,6 +125,14 @@ includeMarkdown(
 )
 ```
 
+### State Boundaries
+
+```{r}
+includeMarkdown(
+  here("data", "metadata", "metadata_statesshp.md")
+)
+```
+
 ### WBGT Data - Prison Level
 
 ```{r}
