@@ -8,7 +8,7 @@
 -   `Temporal Resolution`: Day of year
 -   `Lineage`:
     -   Acquired from Parameter-elevation Regressions on Independent Slopes Model (PRISM) [dataset](https://prism.oregonstate.edu/recent/)
-    -   WBGTmax estimated by authors using high-resolution (4 km) daily maximum 2 m air temperature data (Tmax), and maximum vapour pressure deficit data (VPDmax)
+    -   Unknown exactly how WBGTmax 4 km raster was summarized by county polygons using the daily maximum 2 m air temperature data (Tmax) and maximum vapour pressure deficit data (VPDmax)
 -   `Distribution`: Data available in original study's [git repository](https://github.com/sparklabnyc/temperature_prisons_united_states_2024)
 -   `Constraints`: Open access Creative Commons Attribution 4.0 International License,
 -   `Data Quality`: Data lacks sufficient documentation in the original study repository/resources.
