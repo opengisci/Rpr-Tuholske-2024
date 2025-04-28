@@ -4,21 +4,13 @@
 - `Spatial Resolution`: US state
 - `Spatial Representation Type`: `vector` `MULTIPOLYGON`
 - `Spatial Reference System`: EPSG 4269
-- `Temporal Coverage`: n/a -- should I say as of 2020 ish?
+- `Temporal Coverage`: n/a
 - `Temporal Resolution`: n/a
 - `Lineage`: unknown
 - `Distribution`: Data available in original study's [git repository](https://github.com/sparklabnyc/temperature_prisons_united_states_2024)
 - `Constraints`: Public domain
 - `Data Quality`: n/a
-- `Variables`: For each variable, enter the following information. If you have two or more variables per data source, you may want to present this information in table form (shown below)
-  - `Label`: variable name as used in the data or code
-  - `Alias`: intuitive natural language name
-  - `Definition`: Short description or definition of the variable. Include measurement units in description.
-  - `Type`: data type, e.g. character string, integer, real
-  - `Accuracy`: e.g. uncertainty of measurements
-  - `Domain`: Expected range of Maximum and Minimum of numerical data, or codes or categories of nominal data, or reference to a standard codebook
-  - `Missing Data Value(s)`: Values used to represent missing data and frequency of missing data observations
-  - `Missing Data Frequency`: Frequency of missing data observations: not yet known for data to be collected
+- `Variables`:
 
 | Label | Alias | Definition | Type | Accuracy | Domain | Missing Data Value(s) | Missing Data Frequency |
 | :--: | :--: | :--: | :--: | :--: | :--: | :--: | :--: |
