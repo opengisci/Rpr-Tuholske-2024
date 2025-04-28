@@ -1,6 +1,6 @@
 ---
 title: "Pre-Analysis Plan Version 1"
-author: "HEGSRR"
+author: "Samuel Barnard and Matthew Mills"
 date: "`r Sys.Date()`"
 output: html_document
 editor_options:
@@ -17,7 +17,7 @@ bibliography: "../../software.bib"
 This study is a *reproduction* of: Tuholske, C., Lynch, V.D., Spriggs, R.
 et al.
 Hazardous heat exposure among incarcerated people in the United States.
-Nat Sustain 7, 394–398 (2024).
+*Nat Sustain 7*, 394–398 (2024).
 <https://doi.org/10.1038/s41893-024-01293-y> [Git Repository](https://github.com/sparklabnyc/temperature_prisons_united_states_2024)
 
 By reproducing the exploratory data analysis done in Tuholske et al. (2024), we seek to...
