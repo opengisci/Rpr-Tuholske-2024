@@ -21,7 +21,11 @@ Nat Sustain 7, 394–398 (2024).
 <https://doi.org/10.1038/s41893-024-01293-y> [Git Repository](https://github.com/sparklabnyc/temperature_prisons_united_states_2024)
 
 By reproducing the exploratory data analysis done in Tuholske et al. (2024), we seek to...
-*1.* Identify the temporal resolution at which authors use population data to calculate population weighted hazardous heat days *2.* Understand the population weighting mechanism in state-level hazardous heat calculations.
+
+*1.* Identify the temporal resolution at which authors use population data to calculate population weighted hazardous heat days
+
+*2.* Understand the population weighting mechanism in state-level hazardous heat calculations.
+
 *3.* Evaluate the effectiveness of the author's methods compared to similar research.
 
 # Study metadata
@@ -57,7 +61,7 @@ In general, determining the spatial distribution of carceral facilities with hig
 
 ### Original study computational environment
 
-The original study data transformations and analysis were completed primarily in R using Rmd documents, as well as python.
+The original study data transformations and analysis were completed primarily in R using Rmd documents, as well as in Python.
 The versions of R and Python used are not disclosed, but would have been R 4.3.3 or earlier, and Python 3.12 or earlier.
 
 In the original study, R packages are called in across different scripts.
@@ -147,7 +151,15 @@ knitr::opts_chunk$set(
 ## Data and variables
 
 We are going to use data from the original study's git repository (linked on top level readme).
-This includes: - Population data for the study period - Prison boundary polygons with facility information - State polygons - WBGT data, at prison point and state levels
+This includes:
+
+\- Population data for the study period
+
+\- Prison boundary polygons with facility information
+
+\- State polygons
+
+\- WBGT data, at prison point and state levels
 
 ### Population Data
 
