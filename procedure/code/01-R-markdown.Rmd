@@ -59,7 +59,7 @@ In general, determining the spatial distribution of carceral facilities with hig
 # record all the packages you are using here
 # this includes any calls to library(), require(),
 # and double colons such as here::i_am()
-packages <- c("tidyverse", "here")
+packages <- c("tidyverse", "here", "markdown", "htmltools")
 
 # force all conflicts to become errors
 # if you load dplyr and use filter(), R has to guess whether you mean dplyr::filter() or stats::filter()
@@ -77,10 +77,11 @@ if (!require(groundhog)) {
 
 # this date will be used to determine the versions of R and your packages
 # it is best practice to keep R and its packages up to date
-groundhog.day <- "2023-06-26"
+groundhog.day <- "2025-02-01"
 
 # this replaces any library() or require() calls
-groundhog.library(packages, groundhog.day)
+groundhog.library(packages, groundhog.day,
+                  tolerate.R.version='4.4.2')
 # you may need to install a correct version of R
 # you may need to respond OK in the console to permit groundhog to install packages
 # you may need to restart R and rerun this code to load installed packages
@@ -108,114 +109,43 @@ knitr::opts_chunk$set(
 
 ## Data and variables
 
-Describe the **data sources** and **variables** to be used.
-Data sources may include plans for observing and recording **primary data** or descriptions of **secondary data**.
-For secondary data sources with numerous variables, the analysis plan authors may focus on documenting only the variables intended for use in the study.
+### Population Data
 
-Primary data sources for the study are to include ...
-. Secondary data sources for the study are to include ...
-.
+```{r}
+includeMarkdown(
+  here("data", "metadata", "metadata_population.md")
+)
+```
 
-Each of the next subsections describes one data source.
+### Prison Boundaries
 
-### Primary data source1 name
+```{r}
+includeMarkdown(
+  here("data", "metadata", "metadata_Prison_Boundaries.md")
+)
+```
 
--   `Title`: Title of data source
--   `Abstract`: Brief description of the data source
--   `Spatial Coverage`: Specify the geographic extent of your study. This may be a place name and link to a feature in a gazetteer like GeoNames or OpenStreetMap, or a well known text (WKT) representation of a bounding box.
--   `Spatial Resolution`: Specify the spatial resolution as a scale factor, description of the level of detail of each unit of observation (including administrative level of administrative areas), and/or or distance of a raster GRID size
--   `Spatial Representation Type`: Specify the model of spatial data representation, e.g. one of `vector`, `grid`, `textTable`, `tin` (triangulated irregular network), etc. If the type is `vector`, also specify the geometry type as in the OGC Simple Feature Access standard (<https://www.ogc.org/publications/standard/sfa/>) , e.g. `POINT`, `LINESTRING`, `MULTIPOLYGON`, etc.
--   `Spatial Reference System`: Specify the geographic or projected coordinate system for the study
--   `Temporal Coverage`: Specify the temporal extent of your study---i.e. the range of time represented by the data observations.
--   `Temporal Resolution`: Specify the temporal resolution of your study---i.e. the duration of time for which each observation represents or the revisit period for repeated observations
--   `Lineage`: Describe and/or cite data sources and/or methodological steps planned to create this data source.
-    -   sampling scheme, including spatial sampling
-    -   target sample size and method for determining sample size
-    -   stopping criteria for data collection and sampling (e.g. sample size, time elapsed)
-    -   de-identification / anonymization
-    -   experimental manipulation
--   `Distribution`: Describe who will make the data available and how?
--   `Constraints`: Legal constraints for *access* or *use* to protect *privacy* or *intellectual property rights*
--   `Data Quality`: State any planned quality assessment
--   `Variables`: For each variable, enter the following information. If you have two or more variables per data source, you may want to present this information in table form (shown below)
-    -   `Label`: variable name as used in the data or code
-    -   `Alias`: intuitive natural language name
-    -   `Definition`: Short description or definition of the variable. Include measurement units in description.
-    -   `Type`: data type, e.g. character string, integer, real
-    -   `Accuracy`: e.g. uncertainty of measurements
-    -   `Domain`: Expected range of Maximum and Minimum of numerical data, or codes or categories of nominal data, or reference to a standard codebook
-    -   `Missing Data Value(s)`: Values used to represent missing data and frequency of missing data observations
-    -   `Missing Data Frequency`: Frequency of missing data observations: not yet known for data to be collected
+### WBGT Data - Prison Level
 
-| Label | Alias | Definition | Type | Accuracy | Domain | Missing Data Value(s) | Missing Data Frequency |
-|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|
-| variable1 | ... | ... | ... | ... | ... | ... | ... |
-| variable2 | ... | ... | ... | ... | ... | ... | ... |
+```{r}
+includeMarkdown(
+  here("data", "metadata", "metadata_wbgt_prison.md")
+)
+```
 
-### Primary data source2 name
+### WBGT Data - State Level
 
-...
-same form as above...\
-Metadata documents in the markdown `.md` format can be included directly with the `includeMarkdown()` function.
-This requires the `markdown` package.
-
-### Secondary data source1 name
-
--   `Title`: Title of data source
--   `Abstract`: Brief description of the data source
--   `Spatial Coverage`: Specify the geographic extent of your study. This may be a place name and link to a feature in a gazetteer like GeoNames or OpenStreetMap, or a well known text (WKT) representation of a bounding box.
--   `Spatial Resolution`: Specify the spatial resolution as a scale factor, description of the level of detail of each unit of observation (including administrative level of administrative areas), and/or or distance of a raster GRID size
--   `Spatial Reference System`: Specify the geographic or projected coordinate system for the study
--   `Temporal Coverage`: Specify the temporal extent of your study---i.e. the range of time represented by the data observations.
--   `Temporal Resolution`: Specify the temporal resolution of your study---i.e. the duration of time for which each observation represents or the revisit period for repeated observations
--   `Lineage`: Describe and/or cite data sources and/or methodological steps used to create this data source
--   `Distribution`: Describe how the data is distributed, including any persistent identifier (e.g. DOI) or URL for data access
--   `Constraints`: Legal constraints for *access* or *use* to protect *privacy* or *intellectual property rights*
--   `Data Quality`: State result of quality assessment or state "Quality unknown"
--   `Variables`: For each variable, enter the following information. If you have two or more variables per data source, you may want to present this information in table form (shown below)
-    -   `Label`: variable name as used in the data or code
-    -   `Alias`: intuitive natural language name
-    -   `Definition`: Short description or definition of the variable. Include measurement units in description.
-    -   `Type`: data type, e.g. character string, integer, real
-    -   `Accuracy`: e.g. uncertainty of measurements
-    -   `Domain`: Range (Maximum and Minimum) of numerical data, or codes or categories of nominal data, or reference to a standard codebook
-    -   `Missing Data Value(s)`: Values used to represent missing data and frequency of missing data observations
-    -   `Missing Data Frequency`: Frequency of missing data observations
-
-| Label | Alias | Definition | Type | Accuracy | Domain | Missing Data Value(s) | Missing Data Frequency |
-|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|
-| variable1 | ... | ... | ... | ... | ... | ... | ... |
-| variable2 | ... | ... | ... | ... | ... | ... | ... |
-
-### Secondary data source2 name
-
-...
-same form as above...
+```{r}
+includeMarkdown(
+  here("data", "metadata", "metadata_wbgt_state.md")
+)
+```
 
 ## Prior observations
 
-We have the derived data to work off of, we have neither visualized or analyzed prison data or WBGTmax temperature data before.
+At the time of this pre analysis plan, we have the derived data to work off of, we have neither visualized or analyzed prison data or WBGTmax temperature data before.
 
-At the time of this study pre-registration, the authors had \_\_\_\_\_ prior knowledge of the geography of the study region with regards to the \_\_\_\_ phenomena to be studied.
-This study is related to \_\_\_\_ prior studies by the authors
-
-For each primary data source, declare the extent to which authors had already engaged with the data:
-
--   [ ] no data collection has started
--   [ ] pilot test data has been collected
--   [ ] data collection is in progress and data has not been observed
--   [ ] data collection is in progress and \_\_% of data has been observed
--   [ ] data collection is complete and data has been observed. Explain how authors have already manipulated / explored the data.
-
-For each secondary source, declare the extent to which authors had already engaged with the data:
-
--   [ ] data is not available yet
--   [ ] data is available, but only metadata has been observed
--   [ ] metadata and descriptive statistics have been observed
--   [ ] metadata and a pilot test subset or sample of the full dataset have been observed
--   [ ] the full dataset has been observed. Explain how authors have already manipulated / explored the data.
-
-If pilot test data has been collected or acquired, describe how the researchers observed and analyzed the pilot test, and the extent to which the pilot test influenced the research design.
+This study 
 
 ## Bias and threats to validity
 
@@ -233,8 +163,6 @@ Explain what we believe the authors did for WBGTmax grid - document as data sour
 
 Give readers a sense of the workflow that we are not doing/unable to do
 
-### Reproduce Fig. 1
-
 #### Step 1: Join author-provided WBGTmax by day grid data to author-provided carceral facility point data
 
 Use `st_join()`
@@ -250,26 +178,20 @@ Count to produce summary of days exceeded per year by facility
 *Result:* Rds table with variables\
 - prison facility - facility type - prison population - n days exceeding 28 degrees - year
 
-#### Step 4: Create Fig. 1a and b using results
+#### Step 4: Begin with result from Step 3 from reproduction of Fig. 1
 
-### Reproduce Fig. 2
-
-#### Step 1: Begin with result from Step 3 from reproduction of Fig. 1
-
-#### Step 2: Spatial join county population by year data
+#### Step 5: Spatial join county population by year data
 
 *Result:* Rds table with variables\
 - prison facility - facility type - prison population - county - population - n days exceeding 28 degrees - year
 
-#### Step 3: Population-weighted aggregation
+#### Step 6: Population-weighted aggregation
 
 Aggregate data into states
 
 weighted sum of days exceeded across all counties of the state
 
 sum of days exceeded multiplied by (Ratio of county population / state population)
-
-#### Step 4: Create Fig. 2a, b and c using results
 
 ## Planned deviation for reproduction: Investigating temperature threshold
 
@@ -279,17 +201,21 @@ Repeat workflow for reproducing figures 1 and 2, instead filtering for days when
 
 ### How many open facilities had a population of -999? (Potential source of uncertainy)
 
-#### Step 1: Select facilities with population of -999 from author-provided carceral facilities data.
+#### Step 7: Select facilities with population of -999 from author-provided carceral facilities data.
 
 Report number of facilities compared to authors' number.
-
-#### Step 2: Map result.
 
 ## Analysis
 
 If anything - Fig 2c - comparison of prisons to state
 
 # Results
+
+## Create Fig. 1a and b using results from step 3
+
+## Create Fig. 2a, b and c using results from step 6
+
+## Map result from step 7 to examine planned deviation
 
 Move steps that create maps and graphs into results
 
@@ -306,10 +232,7 @@ Research that maximum daily doesn't matter as much for heat stress - long stretc
 
 # Integrity Statement
 
-This is the first version of our pre-analysis plan
-
-Include an integrity statement - The authors of this preregistration state that they completed this preregistration to the best of their knowledge and that no other preregistration exists pertaining to the same hypotheses and research.
-If a prior registration *does* exist, explain the rationale for revising the registration here.
+This is the first version of our pre-analysis plan. Any deviations in our workflow will be documented as unplanned deviations.
 
 # Acknowledgements
 
