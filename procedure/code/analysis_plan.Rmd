@@ -232,11 +232,76 @@ We will not attempt to produce the original study's WBGTmax grid because the met
 
 #### Step 1: Join author-provided WBGTmax by day grid data to author-provided carceral facility point data
 
-Use `st_join()` or `st_extract()`
+*Unplanned Deviation:* Read in WBGTmax by prison data as single RDS frame.
+
+(This step takes a while to run!)
+
+Method 1
+
+```{r eval=FALSE}
+wbgtmax_grid_long <- list.files(
+  path = here("data", "raw", "public", "wbgt_raw", "prison"),
+  pattern = ".rds$", 
+  full.names = TRUE) %>%
+  map_dfr(readRDS)
+
+saveRDS(wbgtmax_grid_long, here("data", "derived", "private", "wbgtmax_grid_long.RDS")) # save
+```
+
+Method 2 (closer to author)
+
+```{r}
+# Define years
+start_year_wbgt <- 1982
+end_year_wbgt <- 2020
+years_wbgtmax <- c(start_year_wbgt:end_year_wbgt)
+
+raw_wbgt_prison_data <- here("data", "raw", "public", "wbgt_raw", "prison", "")
+
+# Create data frame
+
+dat.all = data.frame()
+for(year in years_wbgtmax){
+  print(paste0('Loading ',year))
+  dat.current = readRDS(paste0(raw_wbgt_prison_data,'weighted_area_raster_prison_wbgtmax_daily_',year,'.rds'))
+  dat.all= data.table::rbindlist(list(dat.all,dat.current))
+  print(paste0('Loaded ',year))
+}
+
+saveRDS(dat.all,paste0(
+  here("data", "derived", "private", ""), # quotation marked added based on assumption, moved file manually
+  'weighted_area_raster_prison_wbgtmax_daily_',start_year_wbgt,'_',end_year_wbgt,'.rds'))
+
+```
+
+*Unplanned Deviation:* Data still needs to be joined to prison points
 
 *Result:* Rds table of WBGTmax by day by prison
 
 #### Step 2: Filter result by days when WBGTmax exceeded 28 degrees C
+
+```{r}
+# read in WBGT prisons file
+wbgtmax_prison <- readRDS(here("data", "derived", "private", "privateweighted_area_raster_prison_wbgtmax_daily_1982_2020.rds"))
+
+# summarize by different temp. thresholds
+dat.wbgt.summarised = wbgtmax_prison %>%
+  mutate(wbgt_26=ifelse(wbgtmax>26,1,0),wbgt_28=ifelse(wbgtmax>28,1,0),
+         wbgt_30=ifelse(wbgtmax>30,1,0),wbgt_35=ifelse(wbgtmax>35,1,0)) %>%
+  group_by(prison_id, year) %>%
+  dplyr::summarise(wbgt_26=sum(wbgt_26), wbgt_28=sum(wbgt_28), wbgt_30=sum(wbgt_30), wbgt_35=sum(wbgt_35))
+
+saveRDS(dat.wbgt.summarised,here("data", "derived", "private", "dat.wbgt.summarised.rds"))
+```
+
+*Unplanned Deviation:* Try and pivot
+
+```{r}
+dat.wbgt.summarised |> pivot_wider(
+  names_from = year,
+  values_from = wbgt_28
+)
+```
 
 #### Step 3: Group by carceral facility type and year
 

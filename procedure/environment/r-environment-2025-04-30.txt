@@ -1,0 +1,33 @@
+R version 4.4.2 (2024-10-31)
+Platform: aarch64-apple-darwin20
+Running under: macOS Sequoia 15.3.2
+
+Matrix products: default
+BLAS:   /System/Library/Frameworks/Accelerate.framework/Versions/A/Frameworks/vecLib.framework/Versions/A/libBLAS.dylib 
+LAPACK: /Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/lib/libRlapack.dylib;  LAPACK version 3.12.0
+
+locale:
+[1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+
+time zone: America/New_York
+tzcode source: internal
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+other attached packages:
+ [1] stars_0.6-7       abind_1.4-8       sf_1.0-19         htmltools_0.5.8.1 markdown_1.13    
+ [6] here_1.0.1        lubridate_1.9.4   forcats_1.0.0     stringr_1.5.1     dplyr_1.1.4      
+[11] purrr_1.0.2       readr_2.1.5       tidyr_1.3.1       tibble_3.2.1      ggplot2_3.5.1    
+[16] tidyverse_2.0.0   groundhog_3.2.2   conflicted_1.2.0 
+
+loaded via a namespace (and not attached):
+ [1] generics_0.1.3     class_7.3-23       KernSmooth_2.23-26 stringi_1.8.4      hms_1.1.3         
+ [6] digest_0.6.37      magrittr_2.0.3     evaluate_1.0.3     grid_4.4.2         timechange_0.3.0  
+[11] fastmap_1.2.0      rprojroot_2.0.4    e1071_1.7-16       DBI_1.2.3          scales_1.3.0      
+[16] cli_3.6.3          rlang_1.1.5        units_0.8-5        munsell_0.5.1      withr_3.0.2       
+[21] cachem_1.1.0       yaml_2.3.10        tools_4.4.2        parallel_4.4.2     tzdb_0.4.0        
+[26] memoise_2.0.1      colorspace_2.1-1   vctrs_0.6.5        R6_2.5.1           proxy_0.4-27      
+[31] lifecycle_1.0.4    classInt_0.4-11    pkgconfig_2.0.3    pillar_1.10.1      gtable_0.3.6      
+[36] Rcpp_1.0.14        rsconnect_1.3.4    glue_1.8.0         xfun_0.50          tidyselect_1.2.1  
+[41] rstudioapi_0.17.1  knitr_1.49         rmarkdown_2.29     compiler_4.4.2    
