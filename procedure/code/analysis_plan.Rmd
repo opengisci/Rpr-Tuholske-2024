@@ -231,7 +231,9 @@ We will not attempt to produce the original study's WBGTmax grid because the met
 (More descriptive segment of original study's workflow)
 
 #### Step 1: Join author-provided WBGTmax by day grid data to author-provided carceral facility point data
-
+# recount the hazerdous heat days (summerize hazerdous heat excedence) per year by prison
+# heat excedence by prison and year
+#NOTES- sequencing is unclear, first round of regressions is done in data rangling, HAVE TO READ ALL OF THE CODE AND SUPPLEMENTARY MATRIALS AND THE PAPER 2b is in the wrangling, 2c is calcued in the actual figure 2 code
 *Unplanned Deviation:* Read in WBGTmax by prison data as single RDS frame.
 
 (This step takes a while to run!)
