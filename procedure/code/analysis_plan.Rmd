@@ -231,7 +231,7 @@ We will not attempt to produce the original study's WBGTmax grid because the met
 (More descriptive segment of original study's workflow)
 
 # OFFICE HOURS NOTES
-recount the hazerdous heat days (summerize hazerdous heat excedence) per year by prison
+recount the hazardous heat days (summarize hazardous heat excedence) per year by prison
 # heat excedence by prison and year
 #NOTES- sequencing is unclear, first round of regressions is done in data rangling, HAVE TO READ ALL OF THE CODE AND SUPPLEMENTARY MATRIALS AND THE PAPER 2b is in the wrangling, 2c is calcued in the actual figure 2 code
 
@@ -324,24 +324,23 @@ Count to produce summary of days exceeded per year by facility
 
 \- year
 
-
 *Unplanned Deviation:*
 **Taken from original code
 ## Take Number of days in first year, last year and last 5 years of data
 # prepares data for figure 1 and figure 2b (and a little bit for 2c) --MM
 ```{r}
 dat.wbgt.summarised.start = dat.wbgt.summarised %>%
-  filter(year%in%c(start_year_wbgt)) %>%
+  dplyr::filter(year%in%c(start_year_wbgt)) %>%
   dplyr::select(-year) %>%
   dplyr::rename_with(~ paste0(., "_", start_year_wbgt), -prison_id)
 
 dat.wbgt.summarised.end = dat.wbgt.summarised %>%
-  filter(year%in%c(end_year_wbgt)) %>%
+  dplyr::filter(year%in%c(end_year_wbgt)) %>%
   dplyr::select(-year) %>%
   dplyr::rename_with(~ paste0(., "_", end_year_wbgt), -prison_id)
 
 dat.wbgt.summarised.last.5 = dat.wbgt.summarised %>%
-  filter(year%in%c((end_year_wbgt-4):end_year_wbgt)) %>%
+  dplyr::filter(year%in%c((end_year_wbgt-4):end_year_wbgt)) %>%
   group_by(prison_id) %>%
   summarise(wbgt_26=mean(wbgt_26),
             wbgt_28=mean(wbgt_28),
@@ -357,7 +356,7 @@ dat.wbgt.summarised.regression.26 = dat.wbgt.summarised %>%
   mutate(year=as.numeric(year)) %>%
   group_by(prison_id) %>%
   do(broom::tidy(lm(wbgt_26 ~ year, data = .))) %>%
-  filter(term=='year') %>%
+  dplyr::filter(term=='year') %>%
   select(prison_id,estimate) %>%
   mutate(total_change_wbgt_26=estimate*(length(years_wbgtmax))) %>%
   rename(annual_change_wbgt_26=estimate) %>%
@@ -367,7 +366,7 @@ dat.wbgt.summarised.regression.28 = dat.wbgt.summarised %>%
   mutate(year=as.numeric(year)) %>%
   group_by(prison_id) %>%
   do(broom::tidy(lm(wbgt_28 ~ year, data = .))) %>%
-  filter(term=='year') %>%
+  dplyr::filter(term=='year') %>%
   select(prison_id,estimate) %>%
   mutate(total_change_wbgt_28=estimate*(length(years_wbgtmax))) %>%
   rename(annual_change_wbgt_28=estimate) %>%
@@ -377,7 +376,7 @@ dat.wbgt.summarised.regression.30 = dat.wbgt.summarised %>%
   mutate(year=as.numeric(year)) %>%
   group_by(prison_id) %>%
   do(broom::tidy(lm(wbgt_30 ~ year, data = .))) %>%
-  filter(term=='year') %>%
+  dplyr::filter(term=='year') %>%
   select(prison_id,estimate) %>%
   mutate(total_change_wbgt_30=estimate*(length(years_wbgtmax))) %>%
   rename(annual_change_wbgt_30=estimate) %>%
@@ -387,7 +386,7 @@ dat.wbgt.summarised.regression.35 = dat.wbgt.summarised %>%
   mutate(year=as.numeric(year)) %>%
   group_by(prison_id) %>%
   do(broom::tidy(lm(wbgt_35 ~ year, data = .))) %>%
-  filter(term=='year') %>%
+  dplyr::filter(term=='year') %>%
   select(prison_id,estimate) %>%
   mutate(total_change_wbgt_35=estimate*(length(years_wbgtmax))) %>%
   rename(annual_change_wbgt_35=estimate) %>%
@@ -424,23 +423,89 @@ for(year in years_wbgtmax){
   dat.all= data.table::rbindlist(list(dat.all,dat.current))
   print(paste0('Loaded ',year))
 }
+
+saveRDS(dat.all,paste0(
+  here("data", "derived", "private", ""), # quotation marked added based on assumption, moved file manually
+  'weighted_area_raster_state_wbgtmax_daily_',start_year_wbgt,'_',end_year_wbgt,'.rds'))
 ```
-
-## Save large file
-```{r}
-# original
-saveRDS(dat.all,paste0(wbgt.folder,'weighted_area_raster_state_wbgtmax_daily_',start_year_wbgt,'_',end_year_wbgt,'.rds'))
-
-# our code
-saveRDS(dat.wbgt.summarised,here("data", "derived", "private", "dat.all.wbgt_state_wbgtmax_daily_1982_2020.rds"))
-```
-
 
 #### Step 4b: summarize hazardous heat day count by county
 
+```{r}
+wbgtmax_state <- readRDS(here("data", "derived", "private", "weighted_area_raster_state_wbgtmax_daily_1982_2020.rds"))
+
+# code from original study
+dat.wbgt.state.summarised = wbgtmax_state %>%
+  mutate(wbgt_26=ifelse(wbgtmax>26,1,0),wbgt_28=ifelse(wbgtmax>28,1,0),
+         wbgt_30=ifelse(wbgtmax>30,1,0),wbgt_35=ifelse(wbgtmax>35,1,0)) %>%
+  group_by(fips, year) %>%
+  dplyr::summarise(wbgt_26=sum(wbgt_26), wbgt_28=sum(wbgt_28), wbgt_30=sum(wbgt_30), wbgt_35=sum(wbgt_35)) %>%
+  mutate(fips=as.character(fips))
+
+saveRDS(dat.wbgt.state.summarised,here("data", "derived", "private", "dat.wbgt.state.summarised.rds"))
+```
+
+*Unplanned Deviation:*
+Per original study, fix counties to be consistent all the way through
+
+```{r}
+dat.wbgt.state.summarised = dat.wbgt.state.summarised %>%
+      mutate(fips = case_when(
+        fips== '08001' | fips== '08013' | fips== '08059' | fips== '08123' ~ '08014', # 08001, 08013, 08059, 08123 -> 08014
+        fips== '12025' ~ '12086', #  12025 -> 12086
+        fips== '30031' | fips== '30067'~ '30113', # 30113 -> 30031, 30067
+        fips== '46113' ~ '46102', # 46113 -> 46102
+        fips== '51560' ~ '51005', # 51560 -> 51005
+        fips== '51780' ~ '51083', # 51780 -> 51083
+        fips== '51515' ~ '51019', # 51515 -> 51019
+        TRUE ~ fips
+        ))
+```
+
+Next, summarize by the fixed counties
+
+```{r}
+dat.wbgt.state.summarised = dat.wbgt.state.summarised %>%
+  group_by(fips, year) %>%
+  dplyr::summarise(wbgt_26=mean(wbgt_26),wbgt_28=mean(wbgt_28),wbgt_30=mean(wbgt_30),wbgt_35=mean(wbgt_35))
+```
+
 #### Step 4c: load county populations
 
+```{r}
+# original study code
+dat_pop= data.frame()
+for(year_selected in years_wbgtmax){
+  if(year_selected<1990){
+    filename_in = paste0(here("data", "raw", "public", "population", "pre_1990", ""),
+                         'pop_monthly_10_year_age_groups_', year_selected,'.csv')  
+  }
+  if(year_selected>=1990){
+    filename_in = paste0(here("data", "raw", "public", "population", "vintage_2020", ""),
+                         'pop_monthly_10_year_age_groups_',year_selected,'.csv')
+  }
+  dat_year=readr::read_csv(filename_in)
+  dat_pop = data.table::rbindlist(list(dat_pop,dat_year))
+  rm(dat_year)
+}
+
+dat_pop = dat_pop %>%
+  dplyr::filter(month==6) %>%
+  dplyr::group_by(year,fips) %>%
+  dplyr::summarise(pop=sum(pop))
+```
+
 #### Step 4d: join population data with summarized, county-level hazardous heat data
+
+*Unplanned Deviation:* Report list of counties with NA population values.
+
+```{r}
+# original study code
+dat.wbgt.state.summarised.merged = left_join(dat.wbgt.state.summarised,dat_pop)
+dat.wbgt.state.summarised.merged.na = dat.wbgt.state.summarised.merged %>% dplyr::filter(is.na(pop)==TRUE)
+
+saveRDS(dat.wbgt.state.summarised.merged,here("data", "derived", "private", "dat.wbgt.state.summarised.merged.rds"))
+```
 
 ## Analysis
 
@@ -492,6 +557,14 @@ Report number of facilities compared to authors' number.
 # Results: Present figures (reproduced from original study and planned deviations).
 
 ## Create Fig. 1a and b using results from step 3
+
+### Make Figure 1a
+
+*Unplanned
+```{r}
+dat.wbgt.summarised.regression = readRDS(here("data", "derived", "private", "dat.wbgt_regression_analysis.rds"))
+```
+
 
 ## Create Fig. 2a, b and c using results from step 6
 
