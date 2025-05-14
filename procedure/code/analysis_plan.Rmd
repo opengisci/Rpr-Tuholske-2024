@@ -241,19 +241,7 @@ recount the hazardous heat days (summarize hazardous heat excedence) per year by
 
 (This step takes a while to run!)
 
-Method 1
-
-```{r eval=FALSE}
-wbgtmax_grid_long <- list.files(
-  path = here("data", "raw", "public", "wbgt_raw", "prison"),
-  pattern = ".rds$", 
-  full.names = TRUE) %>%
-  map_dfr(readRDS)
-
-saveRDS(wbgtmax_grid_long, here("data", "derived", "private", "wbgtmax_grid_long.RDS")) # save
-```
-
-Method 2 (closer to author)
+Code is adapted from original repository
 
 ```{r}
 # Define years
@@ -497,8 +485,6 @@ dat_pop = dat_pop %>%
 
 #### Step 4d: join population data with summarized, county-level hazardous heat data
 
-*Unplanned Deviation:* Report list of counties with NA population values.
-
 ```{r}
 # original study code
 dat.wbgt.state.summarised.merged = left_join(dat.wbgt.state.summarised,dat_pop)
@@ -506,6 +492,23 @@ dat.wbgt.state.summarised.merged.na = dat.wbgt.state.summarised.merged %>% dplyr
 
 saveRDS(dat.wbgt.state.summarised.merged,here("data", "derived", "private", "dat.wbgt.state.summarised.merged.rds"))
 ```
+
+*Unplanned Deviation:* Report list of counties with NA population values.
+
+```{r}
+dat.wbgt.state.summarised.merged.na
+```
+
+Join to county shapefiles
+
+Filter entire dataset by those fips and see if they have population data
+dplyr filter where fips is %IN% group of fips code
+
+Take average of year before and year after
+dplyr filter where fips is in group of fips code, and in year 2011 and 2013
+group by average of pop
+
+#### Step 4e: 
 
 ## Analysis
 
@@ -560,7 +563,8 @@ Report number of facilities compared to authors' number.
 
 ### Make Figure 1a
 
-*Unplanned
+*Unplanned Deviation:* Attempt to work through author's code for Figure 1
+
 ```{r}
 dat.wbgt.summarised.regression = readRDS(here("data", "derived", "private", "dat.wbgt_regression_analysis.rds"))
 ```
