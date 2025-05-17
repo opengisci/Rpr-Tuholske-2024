@@ -100,7 +100,7 @@ As we encounter the need for other packages in our implimentation of the code, w
 # record all the packages you are using here
 # this includes any calls to library(), require(),
 # and double colons such as here::i_am()
-packages <- c("tidyverse", "here", "markdown", "htmltools", "dplyr", "sf", "stars")
+packages <- c("tidyverse", "here", "markdown", "htmltools", "dplyr", "sf", "stars", "tigris", "tmap")
 
 # force all conflicts to become errors
 # if you load dplyr and use filter(), R has to guess whether you mean dplyr::filter() or stats::filter()
@@ -249,9 +249,13 @@ start_year_wbgt <- 1982
 end_year_wbgt <- 2020
 years_wbgtmax <- c(start_year_wbgt:end_year_wbgt)
 
+# Define data
 raw_wbgt_prison_data <- here("data", "raw", "public", "wbgt_raw", "prison", "")
 raw_wbgt_state_data <- here("data", "raw", "public", "wbgt_raw", "state", "")
+```
 
+
+```{r eval=FALSE}
 # Create data frame
 
 dat.all = data.frame()
@@ -274,7 +278,7 @@ saveRDS(dat.all,paste0(
 
 #### Step 2: Filter result by days when WBGTmax exceeded 28 degrees C
 
-```{r}
+```{r eval=FALSE}
 # read in WBGT prisons file
 wbgtmax_prison <- readRDS(here("data", "derived", "private", "weighted_area_raster_prison_wbgtmax_daily_1982_2020.rds"))
 
@@ -288,16 +292,7 @@ dat.wbgt.summarised = wbgtmax_prison %>%
 saveRDS(dat.wbgt.summarised,here("data", "derived", "private", "dat.wbgt.summarised.rds"))
 ```
 
-*Unplanned Deviation:* Try and pivot <-- I don't think we need to do this. If we pivot wide, we won't be able to summarize hazardous heat days with a group by
-
-```{r}
-dat.wbgt.summarised |> pivot_wider(
-  names_from = year,
-  values_from = wbgt_28
-)
-```
-
-#### Step 3: Group by carceral facility type and year
+#### Step 3: Group by carceral facility type and year *begin here to avoid running first two chunks!*
 The group by is already included in the study's filter/summary code from 02 --MM
 Count to produce summary of days exceeded per year by facility
 
@@ -314,9 +309,12 @@ Count to produce summary of days exceeded per year by facility
 
 *Unplanned Deviation:*
 **Taken from original code
-## Take Number of days in first year, last year and last 5 years of data
-# prepares data for figure 1 and figure 2b (and a little bit for 2c) --MM
+Take number of days in first year, last year and last 5 years of data
+prepares data for figure 1 and figure 2b (and a little bit for 2c) --MM
+
 ```{r}
+dat.wbgt.summarised <- readRDS(here("data", "derived", "private", "dat.wbgt.summarised.rds"))
+
 dat.wbgt.summarised.start = dat.wbgt.summarised %>%
   dplyr::filter(year%in%c(start_year_wbgt)) %>%
   dplyr::select(-year) %>%
@@ -337,8 +335,10 @@ dat.wbgt.summarised.last.5 = dat.wbgt.summarised %>%
   dplyr::rename_with(~ paste0(., "_", as.numeric(end_year_wbgt-4), "_", end_year_wbgt), -prison_id)
 ```
 
-## Trends in growth of number of day per year over time
-# totals are calculated by multiplying the regression slope by the total number of years -MM
+Trends in growth of number of day per year over time
+
+Totals are calculated by multiplying the regression slope by the total number of years -MM
+
 ```{r}
 dat.wbgt.summarised.regression.26 = dat.wbgt.summarised %>%
   mutate(year=as.numeric(year)) %>%
@@ -381,7 +381,8 @@ dat.wbgt.summarised.regression.35 = dat.wbgt.summarised %>%
   select(prison_id,annual_change_wbgt_35,total_change_wbgt_35)
 ```
 
-## Merge regression analyses into one data frame
+##### Merge regression analyses into one data frame\
+
 ```{r}
 dat.wbgt.summarised.regression.merged = left_join(dat.wbgt.summarised.start,dat.wbgt.summarised.end) %>%
   left_join(.,dat.wbgt.summarised.last.5) %>%
@@ -391,18 +392,16 @@ dat.wbgt.summarised.regression.merged = left_join(dat.wbgt.summarised.start,dat.
   left_join(.,dat.wbgt.summarised.regression.35)
 ```
 
-## Save regression file
-```{r}
-# original code
-saveRDS(dat.wbgt.summarised.regression.merged,paste0(wbgt.folder,'weighted_area_raster_prison_wbgtmax_daily_',start_year_wbgt,'_',end_year_wbgt,'_regression_analysis.rds'))
+##### Save regression file
 
-# our code
+```{r}
 saveRDS(dat.wbgt.summarised,here("data", "derived", "private", "dat.wbgt_regression_analysis.rds"))
 ```
 
 #### Step 4: combine state level WBGT data into a single file
 
-## Iterate across years of WBGT data and combine into one large file
+##### Iterate across years of WBGT data and combine into one large file
+
 ```{r}
 dat.all = data.frame()
 for(year in years_wbgtmax){
@@ -499,16 +498,77 @@ saveRDS(dat.wbgt.state.summarised.merged,here("data", "derived", "private", "dat
 dat.wbgt.state.summarised.merged.na
 ```
 
-Join to county shapefiles
+Join to county shapefile
 
-Filter entire dataset by those fips and see if they have population data
+```{r}
+counties <- tigris::counties()
+
+counties48 <- counties |>
+  dplyr::filter(
+    as.numeric(STATEFP) != 02,
+    as.numeric(STATEFP) != 15, 
+    as.numeric(STATEFP) != 72, 
+    as.numeric(STATEFP) != 78,
+    as.numeric(STATEFP) != 66,
+    as.numeric(STATEFP) != 69,
+    as.numeric(STATEFP) != 60,
+         )
+
+na.counties <- counties48 |>
+  left_join(
+    dat.wbgt.state.summarised.merged.na, by = c("GEOID" = "fips")
+  )
+  
+
+tm_shape(na.counties) +
+  tm_polygons(
+    fill = "year"
+  )
+```
+
+Filter entire dataset by NA fips and see if they have population data
 dplyr filter where fips is %IN% group of fips code
 
 Take average of year before and year after
 dplyr filter where fips is in group of fips code, and in year 2011 and 2013
 group by average of pop
 
-#### Step 4e: 
+#### Step 4e: Calculate number of days per year above or equal to 26C, 28C, 39C, 35C
+
+```{r}
+# Load county-level data
+dat.wbgt = readRDS(here("data", "derived", "private", 'weighted_area_raster_state_wbgtmax_daily_1982_2020.rds'))
+
+# Load county population
+dat_pop= data.frame()
+for(year_selected in years_wbgtmax){
+  if(year_selected<1990){
+    filename_in = paste0(population_data,
+                         'pre_1990/pop_monthly_10_year_age_groups_', year_selected,'.csv')  
+  }
+  if(year_selected>=1990){
+    filename_in = paste0(population_data,
+                         'vintage_',vintage,'/pop_monthly_10_year_age_groups_', year_selected,'.csv')
+  }
+  dat_year=readr::read_csv(filename_in)
+  dat_pop = data.table::rbindlist(list(dat_pop,dat_year))
+  rm(dat_year)
+}
+
+dat_pop = dat_pop %>%
+  dplyr::filter(month==6) %>%
+  dplyr::group_by(year,fips) %>%
+  dplyr::summarise(pop=sum(pop))
+
+# Calculate days at different temperatures
+
+dat.wbgt.summarised = dat.wbgt %>%
+  mutate(wbgt_26=ifelse(wbgtmax>26,1,0),wbgt_28=ifelse(wbgtmax>28,1,0),
+         wbgt_30=ifelse(wbgtmax>30,1,0),wbgt_35=ifelse(wbgtmax>35,1,0)) %>%
+  group_by(fips, year) %>%
+  dplyr::summarise(wbgt_26=sum(wbgt_26), wbgt_28=sum(wbgt_28), wbgt_30=sum(wbgt_30), wbgt_35=sum(wbgt_35)) %>%
+  mutate(fips=as.character(fips))
+```
 
 ## Analysis
 
