@@ -94,13 +94,13 @@ For the reproduction study, we will be using R version 4.4.2, and the `groundhog
 All packages used will be up to date as of 2025-02-01.
 
 We plan on using the packages `tidyverse`, `here`, `markdown`, `htmltools`, `dplyr`, `sf`, and `stars`.
-As we encounter the need for other packages in our implimentation of the code, we will make note of them as unplanned deviations.
+As we encounter the need for other packages in our implementation of the code, we will make note of them as unplanned deviations.
 
 ```{r environment-setup, include = FALSE}
 # record all the packages you are using here
 # this includes any calls to library(), require(),
 # and double colons such as here::i_am()
-packages <- c("tidyverse", "here", "markdown", "htmltools", "dplyr", "sf", "stars", "tigris", "tmap")
+packages <- c("tidyverse", "here", "markdown", "htmltools", "dplyr", "sf", "stars", "tigris", "tmap", "dplyr", "data.table", "maptools", "mapproj", "rgeos", "rgdal", "RColorBrewer", "ggplot2", "graticule", "zoo", "purrr", "cowplot", "janitor")
 
 # force all conflicts to become errors
 # if you load dplyr and use filter(), R has to guess whether you mean dplyr::filter() or stats::filter()
@@ -499,7 +499,7 @@ saveRDS(dat.wbgt.state.summarised.merged,here("data", "derived", "private", "dat
 dat.wbgt.state.summarised.merged.na
 ```
 
-Join to county shapefile and visualize
+Join to county shapefile and visualize ## NEED TO FIX
 
 ```{r}
 counties <- tigris::counties()
@@ -633,7 +633,65 @@ Report number of facilities compared to authors' number.
 
 Work through author's code for Figure 1
 
+#### Load WBGT regression file
 
+```{r}
+dat.wbgt.summarised.regression = readRDS(here("data", "derived", "private", "dat.wbgt_regression_analysis.rds"))
+```
+
+#### Prepare map structure (using ggplot)
+
+```{r}
+# for map theme to plot in ggplot
+theme_map = function(base_size=10, base_family=""){
+    require(grid)
+    theme_bw(base_size=base_size,base_family=base_family) %+replace%
+    theme(axis.line=element_blank(),
+    axis.text=element_blank(),
+    axis.ticks=element_blank(),
+    axis.title=element_blank(),
+    panel.background=element_blank(),
+    panel.border=element_blank(),
+    panel.grid=element_blank(),
+    panel.margin=unit(0,"lines"),
+    plot.background=element_blank(),
+    legend.position = 'bottom'
+    )
+}
+```
+
+#### Load US prison shapefile to load details and mapping
+
+(Stuck on this step!) Author's code doesn't work
+
+```{r}
+# load shapefile of entire United States by prison
+us.main = read_sf(dsn=here("data", "raw", "public", "shapefiles", "Prison_Boundaries"),
+                  layer = "Prison_Boundaries_Edited")
+
+us.main = st_transform(us.main, crs = ("+proj=laea +lat_0=45 +lon_0=-100 +x_0=0 +y_0=0 +a=6370997 +b=6370997 +units=m +no_defs"))
+
+# fortify to prepare for plotting in ggplot
+map = fortify(us.main)
+
+# extract data from shapefile
+
+## Add an id column
+us.main$id <- as.character(1:nrow(us.main))
+
+## Extract data
+shapefile.data <- st_drop_geometry(us.main)
+
+# fix the weird Alabama mistake
+shapefile.data = shapefile.data %>%
+  dplyr::mutate(STATEFP=case_when(STATEFP=='10' & STATE=='AL'~ '01',
+                               TRUE ~ STATEFP))
+
+
+# merge selected data to map_create dataframe for colouring of ggplot
+USA.df = merge(map, shapefile.data, by='id')
+USA.df$prison_id = as.integer(as.character(USA.df$FID))
+```
 
 ## Create Fig. 2a, b and c using results from step 6
 
