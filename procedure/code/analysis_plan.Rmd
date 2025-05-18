@@ -530,14 +530,16 @@ tm_shape(na.counties.fixed) +
     col = "year_color",
     palette = c(NULL = "white", "2012" = "coral2"),
     labels = c("Counties with missing pop. data"),
-    id = "NAME",
-    fill.legend = tm_legend(
-      title = "2012 Counties (lower 48)",
-      show = TRUE,
-      na.show = FALSE,
-      group_id = "year"
-    )
+    id = "NAME"
   )
+
+tm_shape(na.counties.fixed) + tm_polygons(
+  fill = "year",
+  fill.scale = tm_scale_categorical(),
+  fill.legend = tm_legend(
+    title = "2012 counties (lower 48)"
+  )
+)
 ```
 
 Filter entire dataset by NA fips and see if they have population data
