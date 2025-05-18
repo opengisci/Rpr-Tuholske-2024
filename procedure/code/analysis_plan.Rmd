@@ -205,12 +205,12 @@ includeMarkdown(
 
 ## Prior observations
 
-At the time of this pre-analysis plan, we have the derived data to work off of, and we have examined some of the csv tables.
+At the time of this pre-analysis plan, we have the derived data from the original study to work off of, and examined some of the csv tables.
 We have neither visualized nor analyzed prison data or WBGTmax temperature data before.
 
 ## Bias and threats to validity
 
-There are no statistical tests in this study, so issues such as spatial heterogeneity/anistropy/autocorrelation do not matter.
+*There are no statistical tests in this study, so issues such as spatial heterogeneity/anisotropy/autocorrelation do not matter.*
 Scale could be a threat to validity, because county populations are aggregated to calculate the number of population-weighted heat days in each state.
 There is also a scale issue measuring micro-climate conditions at prison boundaries compared to 4 km temperature data.
 Further, there is no specification of how heat days are calculated within each county given that counties do no map neatly to 4 km by 4km grids used to calculate hazardous heat days.
@@ -530,7 +530,13 @@ tm_shape(na.counties.fixed) +
     col = "year_color",
     palette = c(NULL = "white", "2012" = "coral2"),
     labels = c("Counties with missing pop. data"),
-    id = "NAME"
+    id = "NAME",
+    fill.legend = tm_legend(
+      title = "2012 Counties (lower 48)",
+      show = TRUE,
+      na.show = FALSE,
+      group_id = "year"
+    )
   )
 ```
 
