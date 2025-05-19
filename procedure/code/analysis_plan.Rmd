@@ -695,6 +695,7 @@ us.main$id <- as.character(1:nrow(us.main))
 ## Extract data
 shapefile.data <- st_drop_geometry(us.main)
 
+
 # fix the weird Alabama mistake
 shapefile.data = shapefile.data %>%
   dplyr::mutate(STATEFP=case_when(STATEFP=='10' & STATE=='AL'~ '01',
@@ -816,7 +817,7 @@ plot.bar.chart.28 = plot_bar_chart(28,1)
 plot.bar.chart.30 = plot_bar_chart(30,1)
 ```
 
-## Draw Create 1b
+## Create 1b
 ```{r}
 # load lower 48 US states
 us = st_read(dsn=here("data", "raw", "public", "shapefiles", "states"),
@@ -827,24 +828,26 @@ us = st_read(dsn=here("data", "raw", "public", "shapefiles", "states"),
 # reproject shapefile
 us_aea = st_transform(us, crs = ("+proj=laea +lat_0=45 +lon_0=-100 +x_0=0 +y_0=0 +a=6370997 +b=6370997 +units=m +no_defs"))
 us_aea = us
-us_aea@data$id = rownames(us_aea@data)
+#us_aea@data$id = rownames(us_aea@data) #????
+
+# extract coordinates
+us_aea <- st_as_sf(us_aea, coords = c("long", "lat"))
 
 # only keep mainland US States
-us_aea = us_aea[us_aea$STATE_FIPS %in% states_included,]
-us_aea = st_transform(us_aea, crs = ("+proj=laea +lat_0=45 +lon_0=-100 +x_0=0 +y_0=0 +a=6370997 +b=6370997 +units=m +no_defs"))
+#us_aea = us_aea[us_aea$STATE_FIPS %in% states_included,]
+#us_aea = st_transform(us_aea, crs = ("+proj=laea +lat_0=45 +lon_0=-100 +x_0=0 +y_0=0 +a=6370997 +b=6370997 +units=m +no_defs"))
+us_aea <- us_aea %>%
+  dplyr::filter(STATE_NAME != "Hawaii",
+                STATE_NAME != "District of Columbia",
+                STATE_NAME != "Alaska")
 
 us_aea = fortify(us_aea)
 
-## Add an id column
-us.main$id <- as.character(1:nrow(us.main))
-
-## Extract data
-shapefile.data <- st_drop_geometry(us.main)
 
 ## Preapare summary maps
 # merge map with mean values
-USA.df.merged = left_join(USA.df,dat.wbgt.summarised.regression,by='prison_id')
-USA.df.merged = with(USA.df.merged, USA.df.merged[order(id,order),])
+USA.df.merged = left_join(USA.df,dat.wbgt.summarised.regression.merged,by='prison_id') ##changed to merged file? fid??
+USA.df.merged = with(USA.df.merged, USA.df.merged[order(FID),]) # I CHANGED THIS IDK IF I MESSED IT UP -MM
 
 # map legends and colors
 legend_create_count_start_year = function(threshold)(paste0('Number of dangerous hot-humid days\nin ',start_year_wbgt))
@@ -854,8 +857,42 @@ legend_create_annual_change = function(threshold)(paste0('Annual change during\n
 legend_create_total_change = function(threshold)(paste0('Total change in annual number of dangerous hot-humid days\nduring ',start_year_wbgt,'-',end_year_wbgt))
 
 # filter for open and populated prisons !!!!!
+conflicts_prefer(dplyr::filter)
 USA.df.merged = USA.df.merged %>% 
-  filter(STATUS=='OPEN') %>% filter(POPULATION > 0)
+  dplyr::filter(STATUS.x=='OPEN') %>% filter(POPULATION.x > 0)
+```
+
+Plot count in last 5 years
+```{r}
+plot_last_5_years = function(threshold_chosen,legend_chosen=0){
+  p = ggplot() +
+    geom_polygon(data=us_aea,aes(x=long,y=lat,group=group),fill='grey35',color='black',size=0.5) +
+    geom_polygon(data=USA.df.merged,aes(x=long,y=lat,group=group,
+                                        color=get(paste0('wbgt_',threshold_chosen,'_',(end_year_wbgt-4),'_',end_year_wbgt))),size=1.2) +
+    scale_color_gradientn(colors=rev(MetBrewer::met.brewer('Tam')), limits = c(0,max(USA.df.merged$wbgt_28_2016_2020))) +
+    coord_fixed() + xlab('') + ylab('') + theme_bw() +
+    theme(panel.grid.major = element_blank(),
+        axis.text.x = element_text(angle=90), axis.ticks.x=element_blank(),legend.text=element_text(size=5),
+        panel.grid.minor = element_blank(), axis.line = element_line(colour = "black"),
+        panel.border = element_rect(colour = "black"),strip.background = element_blank(),legend.justification='center',
+        legend.position = 'bottom', legend.background = element_rect(fill="white", size=.5, linetype="dotted")) +
+    theme_map()
+  
+  if(legend_chosen==0){
+    p = p +
+          guides(color=FALSE)
+  }
+  if(legend_chosen==1){
+    p = p +
+          guides(color = guide_colorbar(direction = "horizontal", title.position="left",barwidth = 10,barheight = 1,title.vjust = 0.8, 
+                                  title = legend_create_count_last_5_years(threshold_chosen)),legend.text=element_text(size=5)) 
+    }  
+
+    return(p)
+
+}
+
+plot.count.end.year.legend = cowplot::get_legend(plot_last_5_years(26,1))
 ```
 
 ## Create Fig. 2a, b and c using results from step 6
