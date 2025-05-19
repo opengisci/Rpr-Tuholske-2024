@@ -520,24 +520,18 @@ na.counties <- counties48 |>
     dat.wbgt.state.summarised.merged.na, by = c("GEOID" = "fips")
   )
 
-na.counties.fixed <- na.counties |>
-  mutate(year_color = ifelse(year == 2012, "2012", "Other"))
-
+# visualize counties with missing population data
 tmap_mode("plot")
 
-tm_shape(na.counties.fixed) +
-  tm_fill(
-    col = "year_color",
-    palette = c(NULL = "white", "2012" = "coral2"),
-    labels = c("Counties with missing pop. data"),
-    id = "NAME"
-  )
+na.counties.fixed <- na.counties |>
+  mutate(missing = ifelse(year == 2012, "Missing Population Data", NA))
 
 tm_shape(na.counties.fixed) + tm_polygons(
-  fill = "year",
+  fill = "missing",
   fill.scale = tm_scale_categorical(),
   fill.legend = tm_legend(
-    title = "2012 counties (lower 48)"
+    title = "2012 counties (lower 48)",
+    na.show = FALSE
   )
 )
 ```
@@ -570,7 +564,7 @@ dat.wbgt.summarised.merged.weighted.national = dat.wbgt.state.summarised.merged 
             wbgt_28 = weighted.mean(wbgt_28,pop),
             wbgt_30 = weighted.mean(wbgt_30,pop),
             wbgt_35 = weighted.mean(wbgt_35,pop)) %>%
-  dplyr::mutate(state='99') %>%
+  dplyr::mutate(state='nat') %>% # changed national code to nat since 99 is often American Samoa
   dplyr::relocate(state)
 ```
 
@@ -629,6 +623,17 @@ Repeat workflow for reproducing figures 1 and 2, instead filtering for days when
 
 #### How many open facilities had a population of -999? (Potential source of uncertainty)
 
+
+```{r}
+# load prison boundaries shapefile
+
+
+
+# XXX
+dat.wbgt.summarised.regression = readRDS(here("data", "derived", "private", "dat.wbgt_regression_analysis.rds"))
+
+```
+
 #### Step 7: Select facilities with population of -999 from author-provided carceral facilities data.
 
 Report number of facilities compared to authors' number.
@@ -674,7 +679,7 @@ theme_map = function(base_size=10, base_family=""){
 
 ```{r}
 # load shapefile of entire United States by prison
-us.main = read_sf(dsn=here("data", "raw", "public", "shapefiles", "Prison_Boundaries"),
+us.main = readRDS(dsn=here("data", "raw", "public", "shapefiles", "Prison_Boundaries"),
                   layer = "Prison_Boundaries_Edited")
 
 us.main = st_transform(us.main, crs = ("+proj=laea +lat_0=45 +lon_0=-100 +x_0=0 +y_0=0 +a=6370997 +b=6370997 +units=m +no_defs"))
@@ -697,8 +702,160 @@ shapefile.data = shapefile.data %>%
 
 
 # merge selected data to map_create dataframe for colouring of ggplot
-USA.df = merge(map, shapefile.data, by='id')
+USA.df = merge(map, shapefile.data, by='FID')
 USA.df$prison_id = as.integer(as.character(USA.df$FID))
+```
+
+
+Merge prison over time file with shapefile (for geometry or prison data?)
+```{r}
+# load prison wbgt over time file
+dat.wbgt.summarised.regression = readRDS(here("data", "derived", "private", "weighted_area_raster_state_wbgtmax_daily_1982_2020_over_time.rds"))
+
+# merge weighted prison values and shapefile data, group by, relevel factor, and recalculate at-risk population
+dat.wbgt.summarised.merged.weighted.prison = left_join(dat.wbgt.summarised,shapefile.data, by=c('prison_id'='FID')) %>% 
+  dplyr::filter(STATUS=='OPEN') %>% 
+  dplyr::filter(POPULATION > 0) %>%
+  dplyr::group_by(STATE,STATEFP,TYPE,year) %>%
+  dplyr::summarise(wbgt_26 = weighted.mean(wbgt_26,POPULATION),
+            wbgt_28 = weighted.mean(wbgt_28,POPULATION),
+            wbgt_30 = weighted.mean(wbgt_30,POPULATION),
+            wbgt_35 = weighted.mean(wbgt_35,POPULATION),
+            POPULATION = sum(POPULATION)) %>%
+  dplyr::mutate(STATE=factor(STATE, levels=rev(sort(unique(STATE))))) %>%
+  dplyr::mutate(wbgt_26_pop = wbgt_26 * POPULATION,
+                wbgt_28_pop = wbgt_28 * POPULATION,
+                wbgt_30_pop = wbgt_30 * POPULATION,
+                wbgt_35_pop = wbgt_35 * POPULATION)
+```
+
+calculate 5-year averages
+```{r}
+# most recent 5 years (2016-2020)
+dat.wbgt.summarised.merged.weighted.prison.5year.average = dat.wbgt.summarised.merged.weighted.prison %>%
+  dplyr::filter(year%in%years_wbgtmax[c((length(years_wbgtmax)-4):length(years_wbgtmax))]) %>%
+  dplyr::group_by(STATE,STATEFP,TYPE) %>%
+  dplyr::summarise(wbgt_26_mean = mean(wbgt_26),
+                   wbgt_28_mean = mean(wbgt_28),
+                   wbgt_30_mean = mean(wbgt_30),
+                   wbgt_35_mean = mean(wbgt_35),
+                   wbgt_26_pop_mean = mean(wbgt_26_pop),
+                   wbgt_28_pop_mean = mean(wbgt_28_pop),
+                   wbgt_30_pop_mean = mean(wbgt_30_pop),
+                   wbgt_35_pop_mean = mean(wbgt_35_pop)) %>%
+  dplyr::rename(Type=TYPE) %>%
+  dplyr::mutate(Type=case_when(Type=='COUNTY' ~ 'County',
+                               Type=='LOCAL' ~ 'Local',
+                               Type=='FEDERAL' ~ 'Federal',
+                               Type=='STATE' ~ 'State',
+                               TRUE ~ 'Other')) %>%
+  dplyr::mutate(Type=as.factor(Type)) %>%
+  dplyr::mutate(Type=factor(Type,levels=c('Federal','State','County','Local','Other')))
+
+# earliest 5 years (1982-1987)
+dat.wbgt.summarised.merged.weighted.prison.first.5year.average = dat.wbgt.summarised.merged.weighted.prison %>%
+  dplyr::filter(year%in%years_wbgtmax[c(1:5)]) %>%
+  dplyr::group_by(STATE,STATEFP,TYPE) %>%
+  dplyr::summarise(wbgt_26_mean = mean(wbgt_26),
+                   wbgt_28_mean = mean(wbgt_28),
+                   wbgt_30_mean = mean(wbgt_30),
+                   wbgt_35_mean = mean(wbgt_35),
+                   wbgt_26_pop_mean = mean(wbgt_26_pop),
+                   wbgt_28_pop_mean = mean(wbgt_28_pop),
+                   wbgt_30_pop_mean = mean(wbgt_30_pop),
+                   wbgt_35_pop_mean = mean(wbgt_35_pop)) %>%
+  dplyr::rename(Type=TYPE) %>%
+  dplyr::mutate(Type=case_when(Type=='COUNTY' ~ 'County',
+                               Type=='LOCAL' ~ 'Local',
+                               Type=='FEDERAL' ~ 'Federal',
+                               Type=='STATE' ~ 'State',
+                               TRUE ~ 'Other')) %>%
+  dplyr::mutate(Type=as.factor(Type)) %>%
+  dplyr::mutate(Type=factor(Type,levels=c('Federal','State','County','Local','Other')))
+```
+
+## Create Figure 1a
+```{r}
+library(MetBrewer)
+
+plot_bar_chart = function(threshold_chosen,legend_chosen=1){ 
+  
+  # calculate rank of bars
+  dat.rank = dat.wbgt.summarised.merged.weighted.prison.5year.average %>%
+    group_by(STATE) %>%
+    dplyr::summarise(sum=sum(get(paste0('wbgt_',threshold_chosen,'_pop_mean')))) %>%
+    dplyr::arrange(sum) %>%
+    dplyr::mutate(rank=row_number())
+  
+  dat.plot = left_join(dat.wbgt.summarised.merged.weighted.prison.5year.average,dat.rank)
+
+ p = ggplot() + 
+   geom_bar(data=dat.plot, 
+                aes(x=reorder(STATE, rank),
+                              y=get(paste0('wbgt_',threshold_chosen,'_pop_mean')),fill=Type),stat = "identity") +
+   ylab(paste0('Mean annual number of dangerous hot-humid person-days\nfor incarcerated people during ',(end_year_wbgt-4),'-',end_year_wbgt)) + 
+   xlab('State') + 
+   scale_y_continuous(label=scales::comma) + 
+   coord_flip() +
+   scale_fill_manual(values=met.brewer('Lakota')) + 
+   theme_bw() + theme(text = element_text(size = 10), 
+   panel.grid.major = element_blank(),axis.text.x = element_text(angle=0 , size=8, vjust=0.5), 
+   plot.title = element_text(hjust = 0.5),panel.background = element_blank(), 
+   panel.grid.minor = element_blank(), axis.line = element_line(colour = "black"), 
+   panel.border = element_rect(colour = "black"),strip.background = element_blank(), 
+   legend.position = 'bottom',legend.justification='center', 
+   legend.background = element_rect(fill="white", linewidth=.5, linetype="dotted"))
+
+ return(p) 
+}
+
+plot.bar.chart.26 = plot_bar_chart(26,1)
+
+plot.bar.chart.28 = plot_bar_chart(28,1)
+
+plot.bar.chart.30 = plot_bar_chart(30,1)
+```
+
+## Draw Create 1b
+```{r}
+# load lower 48 US states
+us = st_read(dsn=here("data", "raw", "public", "shapefiles", "states"),
+                  layer = "states")
+#us.main = readRDS(dsn=here("data", "raw", "public", "shapefiles", "Prison_Boundaries"),
+#                  layer = "Prison_Boundaries_Edited")
+
+# reproject shapefile
+us_aea = st_transform(us, crs = ("+proj=laea +lat_0=45 +lon_0=-100 +x_0=0 +y_0=0 +a=6370997 +b=6370997 +units=m +no_defs"))
+us_aea = us
+us_aea@data$id = rownames(us_aea@data)
+
+# only keep mainland US States
+us_aea = us_aea[us_aea$STATE_FIPS %in% states_included,]
+us_aea = st_transform(us_aea, crs = ("+proj=laea +lat_0=45 +lon_0=-100 +x_0=0 +y_0=0 +a=6370997 +b=6370997 +units=m +no_defs"))
+
+us_aea = fortify(us_aea)
+
+## Add an id column
+us.main$id <- as.character(1:nrow(us.main))
+
+## Extract data
+shapefile.data <- st_drop_geometry(us.main)
+
+## Preapare summary maps
+# merge map with mean values
+USA.df.merged = left_join(USA.df,dat.wbgt.summarised.regression,by='prison_id')
+USA.df.merged = with(USA.df.merged, USA.df.merged[order(id,order),])
+
+# map legends and colors
+legend_create_count_start_year = function(threshold)(paste0('Number of dangerous hot-humid days\nin ',start_year_wbgt))
+legend_create_count_end_year = function(threshold)(paste0('Number of dangerous hot-humid days\nin ',end_year_wbgt))
+legend_create_count_last_5_years = function(threshold)(paste0('Mean annual number of\ndangerous hot-humid days during ',(end_year_wbgt-4),'-',end_year_wbgt))
+legend_create_annual_change = function(threshold)(paste0('Annual change during\n',start_year_wbgt,'-',end_year_wbgt ))
+legend_create_total_change = function(threshold)(paste0('Total change in annual number of dangerous hot-humid days\nduring ',start_year_wbgt,'-',end_year_wbgt))
+
+# filter for open and populated prisons !!!!!
+USA.df.merged = USA.df.merged %>% 
+  filter(STATUS=='OPEN') %>% filter(POPULATION > 0)
 ```
 
 ## Create Fig. 2a, b and c using results from step 6
@@ -727,3 +884,4 @@ This report is based upon the template for Reproducible and Replicable Research 
 > (2023).
 > Template for Reproducible and Replicable Research in Human-Environment and Geographical Sciences.
 > <https://doi.org/10.17605/OSF.IO/W29MQ>
+
