@@ -210,8 +210,7 @@ We have neither visualized nor analyzed prison data or WBGTmax temperature data 
 
 ## Bias and threats to validity
 
-*There are no statistical tests in this study, so issues such as spatial heterogeneity/anisotropy/autocorrelation do not matter.*
-Scale could be a threat to validity, because county populations are aggregated to calculate the number of population-weighted heat days in each state.
+*There are no statistical tests in this study, so issues such as spatial heterogeneity/anisotropy/autocorrelation do not matter.* Scale could be a threat to validity, because county populations are aggregated to calculate the number of population-weighted heat days in each state.
 There is also a scale issue measuring micro-climate conditions at prison boundaries compared to 4 km temperature data.
 Further, there is no specification of how heat days are calculated within each county given that counties do no map neatly to 4 km by 4km grids used to calculate hazardous heat days.
 The ways in which the county boundaries are drawn also supports the argument that there is a Modifiable Area Unit Problem.
@@ -231,9 +230,8 @@ We will not attempt to produce the original study's WBGTmax grid because the met
 (More descriptive segment of original study's workflow)
 
 # OFFICE HOURS NOTES
-recount the hazardous heat days (summarize hazardous heat excedence) per year by prison
-# heat excedence by prison and year
-#NOTES- sequencing is unclear, first round of regressions is done in data rangling, HAVE TO READ ALL OF THE CODE AND SUPPLEMENTARY MATRIALS AND THE PAPER 2b is in the wrangling, 2c is calcued in the actual figure 2 code
+
+recount the hazardous heat days (summarize hazardous heat excedence) per year by prison \# heat excedence by prison and year #NOTES- sequencing is unclear, first round of regressions is done in data rangling, HAVE TO READ ALL OF THE CODE AND SUPPLEMENTARY MATRIALS AND THE PAPER 2b is in the wrangling, 2c is calcued in the actual figure 2 code
 
 #### Step 1: Join author-provided WBGTmax by day grid data to author-provided carceral facility point data
 
@@ -294,8 +292,8 @@ saveRDS(dat.wbgt.summarised,here("data", "derived", "private", "dat.wbgt.summari
 ```
 
 #### *begin here to avoid running first two chunks!* Step 3: Group by carceral facility type and year
-The group by is already included in the study's filter/summary code from 02 --MM
-Count to produce summary of days exceeded per year by facility
+
+The group by is already included in the study's filter/summary code from 02 --MM Count to produce summary of days exceeded per year by facility
 
 *Result:* Rds table with variables\
 - prison facility
@@ -308,10 +306,7 @@ Count to produce summary of days exceeded per year by facility
 
 \- year
 
-*Unplanned Deviation:*
-**Taken from original code
-Take number of days in first year, last year and last 5 years of data
-prepares data for figure 1 and figure 2b (and a little bit for 2c) --MM
+*Unplanned Deviation:* \*\*Taken from original code Take number of days in first year, last year and last 5 years of data prepares data for figure 1 and figure 2b (and a little bit for 2c) --MM
 
 ```{r}
 dat.wbgt.summarised <- readRDS(here("data", "derived", "private", "dat.wbgt.summarised.rds"))
@@ -382,7 +377,7 @@ dat.wbgt.summarised.regression.35 = dat.wbgt.summarised %>%
   select(prison_id,annual_change_wbgt_35,total_change_wbgt_35)
 ```
 
-##### Merge regression analyses into one data frame\
+##### Merge regression analyses into one data frame
 
 ```{r}
 dat.wbgt.summarised.regression.merged = left_join(dat.wbgt.summarised.start,dat.wbgt.summarised.end) %>%
@@ -433,8 +428,7 @@ dat.wbgt.state.summarised = wbgtmax_state %>%
 saveRDS(dat.wbgt.state.summarised,here("data", "derived", "private", "dat.wbgt.state.summarised.rds"))
 ```
 
-*Unplanned Deviation:*
-Per original study, fix counties to be consistent all the way through
+*Unplanned Deviation:* Per original study, fix counties to be consistent all the way through
 
 ```{r}
 dat.wbgt.state.summarised = dat.wbgt.state.summarised %>%
@@ -499,7 +493,7 @@ saveRDS(dat.wbgt.state.summarised.merged,here("data", "derived", "private", "dat
 dat.wbgt.state.summarised.merged.na
 ```
 
-Join to county shapefile and visualize ## NEED TO FIX
+Join to county shapefile and visualize \## NEED TO FIX
 
 ```{r}
 counties <- tigris::counties()
@@ -536,12 +530,9 @@ tm_shape(na.counties.fixed) + tm_polygons(
 )
 ```
 
-Filter entire dataset by NA fips and see if they have population data
-dplyr filter where fips is %IN% group of fips code
+Filter entire dataset by NA fips and see if they have population data dplyr filter where fips is %IN% group of fips code
 
-Take average of year before and year after
-dplyr filter where fips is in group of fips code, and in year 2011 and 2013
-group by average of pop
+Take average of year before and year after dplyr filter where fips is in group of fips code, and in year 2011 and 2013 group by average of pop
 
 #### Step 4e: Take weighted average of each state in each year by population
 
@@ -582,10 +573,6 @@ saveRDS(dat.wbgt.summarised.merged.weighted,paste0(here("data", "derived", "priv
 
 ## Analysis
 
-### Analyze data to create Figures 2a, 2b and 2c
-
-Figure 2b, 2c - results are based on linear regression models
-
 #### Step 4: Begin with result from Step 3
 
 #### Step 5: Spatial join county population by year data
@@ -614,10 +601,6 @@ Weighted sum of days exceeded across all counties of the state
 Sum of days exceeded multiplied by (Ratio of county population / state population)
 
 ## Planned deviations for reproduction:
-
-### Deviation 1: Investigating temperature threshold
-
-Repeat workflow for reproducing figures 1 and 2, instead filtering for days when WBGTmax exceeded 29.4 degrees C (85 degrees F standard informed by other literature)
 
 # Results: Present figures (reproduced from original study and planned deviations).
 
@@ -656,13 +639,8 @@ theme_map = function(base_size=10, base_family=""){
 
 #### Load US prison shapefile to load details and mapping
 
-(Stuck on this step!) Author's code doesn't work
-
 ```{r}
 # load shapefile of entire United States by prison
-#huh what happened here??
-us.main = readRDS(dsn=here("data", "raw", "public", "shapefiles", "Prison_Boundaries", "Prison_Boundaries_Edited.shp"))
-# THIS ONE WORKS?
 us.main = st_read(dsn=here("data", "raw", "public", "shapefiles", "Prison_Boundaries"),
                   layer = "Prison_Boundaries_Edited")
 
@@ -691,8 +669,8 @@ USA.df = merge(map, shapefile.data, by='FID')
 USA.df$prison_id = as.integer(as.character(USA.df$FID))
 ```
 
-
 Merge prison over time file with shapefile (for geometry or prison data?)
+
 ```{r}
 # load prison wbgt over time file
 dat.wbgt.summarised.regression = readRDS(here("data", "derived", "private", "weighted_area_raster_state_wbgtmax_daily_1982_2020_over_time.rds"))
@@ -715,6 +693,7 @@ dat.wbgt.summarised.merged.weighted.prison = left_join(dat.wbgt.summarised,shape
 ```
 
 calculate 5-year averages
+
 ```{r}
 # most recent 5 years (2016-2020)
 dat.wbgt.summarised.merged.weighted.prison.5year.average = dat.wbgt.summarised.merged.weighted.prison %>%
@@ -760,6 +739,7 @@ dat.wbgt.summarised.merged.weighted.prison.first.5year.average = dat.wbgt.summar
 ```
 
 ## Create Figure 1a
+
 ```{r}
 library(MetBrewer)
 
@@ -802,23 +782,19 @@ plot.bar.chart.30 = plot_bar_chart(30,1)
 ```
 
 ## Create 1b
+
 ```{r}
 # load lower 48 US states
 us = st_read(dsn=here("data", "raw", "public", "shapefiles", "states"),
                   layer = "states")
-#us.main = readRDS(dsn=here("data", "raw", "public", "shapefiles", "Prison_Boundaries"),
-#                  layer = "Prison_Boundaries_Edited")
 
 # reproject shapefile
 us_aea = st_transform(us, crs = ("+proj=laea +lat_0=45 +lon_0=-100 +x_0=0 +y_0=0 +a=6370997 +b=6370997 +units=m +no_defs"))
-#us_aea@data$id = rownames(us_aea@data) #????
 
 # extract coordinates
 us_aea <- st_as_sf(us_aea, coords = c("long", "lat"))
 
 # only keep mainland US States
-#us_aea = us_aea[us_aea$STATE_FIPS %in% states_included,]
-#us_aea = st_transform(us_aea, crs = ("+proj=laea +lat_0=45 +lon_0=-100 +x_0=0 +y_0=0 +a=6370997 +b=6370997 +units=m +no_defs"))
 us_aea <- us_aea %>%
   dplyr::filter(STATE_NAME != "Hawaii",
                 STATE_NAME != "District of Columbia",
@@ -830,8 +806,7 @@ us_aea = fortify(us_aea)
 ## Prepare summary maps
 # merge map with mean values
 USA.df.merged = left_join(USA.df,dat.wbgt.summarised.regression.merged,by='prison_id')
-##changed to merged file? fid??
-USA.df.merged = with(USA.df.merged, USA.df.merged[order(FID),]) # I CHANGED THIS IDK IF I MESSED IT UP -MM
+USA.df.merged = with(USA.df.merged, USA.df.merged[order(FID),])
 
 # map legends and colors
 legend_create_count_start_year = function(threshold)(paste0('Number of dangerous hot-humid days\nin ',start_year_wbgt))
@@ -845,61 +820,18 @@ conflicts_prefer(dplyr::filter)
 USA.df.merged = USA.df.merged %>% 
   dplyr::filter(STATUS.x=='OPEN') %>% filter(POPULATION.x > 0)
 ```
+
 extract coordinates
+
 ```{r}
-us_aea <- us_aea %>%
-  mutate(long = st_coordinates(st_centroid(us_aea$geometry))[,1],
-         lat = st_coordinates(st_centroid(us_aea$geometry))[,2])
 USA.df.merged <- USA.df.merged %>%
   mutate(long = st_coordinates(st_centroid(USA.df.merged$geometry))[,1],
          lat = st_coordinates(st_centroid(USA.df.merged$geometry))[,2])
 ```
 
 
-Plot count in last 5 years
-```{r eval=FALSE}
-
-plot_last_5_years = function(threshold_chosen,legend_chosen=0){
-  p = ggplot() +
-  geom_sf(mapping = aes(geometry=geometry), data=us_aea, fill='grey35', color='black', size=0.5) +
-  geom_point(data=USA.df.merged,aes(x=long,y=lat,color=wbgt_28_2016_2020),size=1.2) +
-    scale_color_gradientn(colors=rev(MetBrewer::met.brewer('Tam')), limits = c(0,max(USA.df.merged$wbgt_28_2016_2020))) +
-    coord_fixed() + xlab('') + ylab('') + theme_bw() +
-    theme(panel.grid.major = element_blank(),
-        axis.text.x = element_text(angle=90), axis.ticks.x=element_blank(),legend.text=element_text(size=5),
-        panel.grid.minor = element_blank(), axis.line = element_line(colour = "black"),
-        panel.border = element_rect(colour = "black"),strip.background = element_blank(),legend.justification='center',
-        legend.position = 'bottom', legend.background = element_rect(fill="white", size=.5, linetype="dotted")) +
-    theme_map()
-  
-  if(legend_chosen==0){
-    p = p +
-          guides(color=FALSE)
-  }
-  if(legend_chosen==1){
-    p = p +
-          guides(color = guide_colorbar(direction = "horizontal", title.position="left",barwidth = 10,barheight = 1,title.vjust = 0.8, 
-                                  title = legend_create_count_last_5_years(threshold_chosen)),legend.text=element_text(size=5)) 
-    }  
-
-    return(p)
-
-}
-
-
-plot.count.end.year.legend = cowplot::get_legend(plot_last_5_years(26,1))
-```
-
-
-```{r eval=FALSE}
-plot.count.last.5.years.26 = plot_last_5_years(26,1)
-plot.count.last.5.years.28 = plot_last_5_years(28,1)
-plot.count.last.5.years.30 = plot_last_5_years(30,1)
-
-plot.count.last.5.years.28
-```
-
 # Plot figure 1a
+
 ```{r}
 library(cowplot)
 pdf(paste0(here("data", "derived", "pubilc"),'Figure_1.pdf'),paper='a4r',width=0,height=0)
@@ -916,7 +848,10 @@ plot_grid(plot.bar.chart.28,
           labels = c('(a)', '(b)'))
 
 ```
+
 # Plot figure 1b
+### Unplanned Deviation: using geom_sf() to plot states as basemap and geom_point() functions to plot carceral facility points
+
 ```{r}
   p = ggplot() +
   geom_sf(mapping = aes(geometry=geometry), data=us_aea, fill='grey35', color='black', size=0.5) +
@@ -928,59 +863,75 @@ p
 
 ### Deviation 2: Investigating sources of uncertainty/error/bias
 
-#### How many open facilities had a population of -999? (Potential source of uncertainty)
-
 #### Step 7: Select facilities with population of -999 from author-provided carceral facilities data.
 
 Report number of facilities compared to authors' number.
+
 ```{r}
-prisons.na <- left_join(USA.df,dat.wbgt.summarised.regression.merged,by='prison_id')
+prisonsNA <- left_join(USA.df,dat.wbgt.summarised.regression.merged,by='prison_id') %>%
+  dplyr::filter(POPULATION.x == -999 | STATUS.x == "NOT AVAILABLE") %>%
+  mutate(long = st_coordinates(st_centroid(geometry))[,1],
+         lat = st_coordinates(st_centroid(geometry))[,2])
+  
+pNA = ggplot() +
+  geom_sf(mapping = aes(geometry=geometry), data=us_aea, fill='grey35', color='black', size=0.5) +
+  geom_point(data=prisonsNA,aes(x=long,y=lat,color='coral2'),size=1.2)
 
-
+pNA
 ```
+### Results Text
 
-## Create Fig. 2a, b and c using results from step 6
+Ultimately, we were able to produce nearly identical versions of figures 1a and 1b but not figures 2a, 2b, or 2c. This indicates that the study provided sufficient materials to be partially reproduced. However, difficulties in the reproduction process made reproducing subsequent figures unfeasible given time and resource constraints. The reproduction process fortified trust in the authors' findings, though the process revealed furhter avenues for improvements to reproducibility and open science practices.
 
-## Map result from step 7 to examine data quality issue
+We were also able to map NA and excluded values for both county and prison population. County population values are only missing in 2012, presenting minimal impact on study results. There does not appear to be a significantly different geographic distribution of excluded carceral facilities from included ones, though further investigation is necessary.
 
 # Discussion
 
-The study showed important first steps towards participating in open source conventions. Including a linked github repository containing the study code and a supplementary materials document improved the study’s legibility. However, these documents could be improved to ensure better reproducibility and open access.
+The study showed important first steps towards participating in open source conventions.
+Including a linked github repository containing the labeled, ordered study code and a supplementary materials document improved the study’s legibility and provided essential information that greatly improved reproducibility.
+However, these documents could be improved to ensure better reproducibility and open access.
 
 Key barriers to reproducibility identified were:
-1. *Brief Methods Section* - The methods section of the published paper does not explain key information about the data transformation and analysis process, selection of prison facilities to include in the study, or the extent of the study and choice to remove Alaska, Hawaii, and non-state US territories.
-2. *Missing Climate Data* - The github repository does not include raw PRISM data used to calculate WBGT max, any form of the 4x4km climate raster, or a download script to retrieve data. It is therefore impossible to reproduce their climate analysis or determine any methods used to resolve boundary issues.
-3. *Raster to Polygon Join* - The methods section and repository do not include a method for joining the raster data to the prison and county geometries. Therefore, it is unclear what method was used to resolve edge cases.
-4. *Prison Population Metadata* - The study does not specify the date the prison data were downloaded or how the prison boundaries file was edited.
-5. *Repository Organization and Labeling* - Mislabeled and extraneous files in the repository make it difficult to navigate. Many files throughout the repository are named “raster” but do not include raster data.
-6. *Code Documentation* - Code files could be more explicitly and thoroughly documented for readability. For example, the README.txt file included in the python folder outlines a different series of code files than is present in the repository. Inclusion of intermediate results including attribute counts would improve reproducibility. Without a clear workflow in the methods section, the data transformation process remains opaque.
-7. *Packages* - The use of a variety of packages, including `rgdal` which is no longer operational, impedes reproducibility. Standardization of open source package use and the groundhog package that stores and loads dates and versions for all packages would improve reproducibility.
+
+1.  *Brief Methods Section* - The methods section of the published paper does not explain key information about the data transformation and analysis process, selection of prison facilities to include in the study, or the extent of the study and choice to remove Alaska, Hawaii, and non-state US territories.
+2.  *Missing Climate Data* - The github repository does not include raw PRISM data used to calculate WBGT max, any form of the 4x4km climate raster, or a download script to retrieve data. It is therefore very difficult to reproduce their climate analysis or determine any methods used to resolve MAUP/boundary issues.
+3.  *Raster to Polygon Join* - The methods section and repository do not include a method for joining the raster data to the prison and county geometries. Therefore, it is unclear what method was used to assign WBGTmax values to counties spanning multiple grid cells.
+4.  *Prison Population Metadata* - The study does not specify the date the prison data were downloaded or how the prison boundaries file was edited.
+5.  *Repository Organization and Labeling* - While there was a clear order to the R code files, spreading the analysis and visualization across a large number of files made it more difficult to trace what was being used where. Mislabeled and extraneous files in the repository added challenges to navigation. Some files throughout the repository are named “raster” but do not include raster data.
+6.  *Code Documentation* - Code files could be more explicitly and thoroughly documented for readability. For example, the README.txt file included in the python folder outlines a different series of code files than is present in the repository. Recording of intermediate results including attribute counts would improve reproducibility. Without a clear workflow in the methods section, the data transformation process was difficult to understand.
+7.  *Packages* - The use of a variety of packages, including `rgdal` which is no longer operational, impedes reproducibility. Confusing use of packages like using the geom_polygon() function to plot points made code less readable. Furthermore, there use dates and package versions are not specified which impedes reproducibility. Standardization of open source package use and the groundhog package that stores and loads dates and versions for all packages would improve reproducibility.
 
 Key threats to validity identified were:
-1. *Barriers to Reproducibility* - The study is not reproducible which presents a threat to validity because its results cannot be verified.
-2. *WBGTmax Raster* - Hazardous heat exposure is calculated using a 4x4km grid of daytime highs to county populations, presenting scale and boundary issues.
-  a. *Scale* - Both of these grid and county geometries are large enough to house significant variation in heat and population density which could skew results, especially in densely populated areas.
-  b. *Boundary* - The lack of a documented method to resolve boundary issues joining the raster to prison and county geometries (e.g. centroid, area of overlap, area-weighted reaggregation etc.) presents a threat to the validity of the hazardous heat exposure and relative risk calculations.
-  c. *Heat Risk Metric* - Recent studies of heat risk have indicated that nighttime lows predict heat related mortality. When nighttime lows are high, the body is unable to recover from heat stress, exacerbating health risks.\*
-3. *Prison Data* - The study and its repository consistently refer to carceral facilities as “prisons” despite also analyzing data from jails, detention centers, and other facilities. Missing data and documentation and the temporal resolution threaten validity.
-  a. *Missing Population Data* - While the study focuses on the 4078 open and populated facilities, the HIFLD prison data file contains data on 6738 facilities. 1817 of these facilities reported being open but did not have available population data. 12 reported a population greater than 0 but did not have available data on their status (open or closed). 80 facilities did not have available status or population data.
-  b. *Temporal Resolution* - The study uses carceral facility population data from a single, unspecified date to calculate changes in heat risk over 38 years. This threatens validity because these populations are not stable and the lack of a specific date makes it impossible to check biases.
-4. *Selective Reporting Bias* - While the supplementary materials and github repository included additional figures and analyses testing different temperature thresholds and data visualizations, there is minimal documentation of the reasoning used to select the figures in the published study.
 
->\*Murage P, Hajat S, Kovats RS.
-> Effect of night-time temperatures on cause and age-specific mortality in London.
-> Environ Epidemiol. 2017 Dec;1(2):e005.
-> doi: 10.1097/EE9.0000000000000005. Epub 2017 Dec 13. PMID: 33195962; PMCID: PMC7608908.
+1.  *Barriers to Reproducibility* - The study only partially reproducible which presents a threat to validity because its results are difficult to verified.
+2.  *WBGTmax Raster* - Hazardous heat exposure is calculated using a 4x4km grid of daytime highs to county populations, presenting scale and boundary issues.
 
-Through this reproduction in progress, we were able to identify key barriers to reproducibility and threats to validity in the study. The reproduction was limited by the time and energy of the reproducers (Sam and Matthew) and our limited expertise handling large datasets containing raster data and time series data. However, our inability to reproduce or verify all of the figures indicates that reproducibility attempts in the study were not sufficient to reduce barriers. Producing a more thorough reproduction could be accomplished by:
-Recreating Figure 2
-Mapping out the authors’ workflow and study design based on the code
-Reanalyzing and visualizing the data using open source packages
-Visualizing and investigating prisons with missing data
-Replicating the study using nighttime low temperatures
+a.  *Scale* - Both of these grid and county geometries are large enough to house significant variation in heat and population density which could skew results, especially in densely populated areas.
+b.  *Boundary* - The lack of a documented method to resolve boundary issues joining the raster to prison and county geometries (e.g. centroid, area of overlap, area-weighted reaggregation etc.) presents a threat to the validity of the hazardous heat exposure and relative risk calculations.
+c.  *Heat Risk Metric* - Recent studies of heat risk have indicated that nighttime lows predict heat related mortality. When nighttime lows are high, the body is unable to recover from heat stress, exacerbating health risks.\*
 
-Ultimately, the study provides a template for exploring general trends in extreme heat risk for incarcerated populations. With further attention to clarity, accessibility, and reproducibility, this study and its reproductions could contribute to a reporting or monitoring system for heat risk in carceral facilities. Despite threats to validity and reproducibility, the study provides a basis for critical future research in environmental hazards and abolition.
+3.  *Prison Data* - The study and its repository consistently refer to carceral facilities as “prisons” despite also analyzing data from jails, detention centers, and other facilities. Missing data and documentation and the temporal resolution threaten validity.
 
+a.  *Missing Population Data* - While the study focuses on the 4078 open and populated facilities, the HIFLD prison data file contains data on 6738 facilities. 1817 of these facilities reported being open but did not have available population data. 12 reported a population greater than 0 but did not have available data on their status (open or closed). 80 facilities did not have available status or population data.
+b.  *Temporal Resolution* - The study uses carceral facility population data from a single, unspecified date to calculate changes in heat risk over 38 years. This threatens validity because these populations are not stable and the lack of a specific date makes it impossible to check biases.
+
+4.  *Selective Reporting Bias* - While the supplementary materials and github repository included additional figures and analyses testing different temperature thresholds and data visualizations, there is minimal documentation of the reasoning used to select the figures in the published study.
+
+> \*Murage P, Hajat S, Kovats RS. Effect of night-time temperatures on cause and age-specific mortality in London.
+> Environ Epidemiol.
+> 2017 Dec;1(2):e005.
+> doi: 10.1097/EE9.0000000000000005.
+> Epub 2017 Dec 13.
+> PMID: 33195962; PMCID: PMC7608908.
+
+Through this reproduction in progress, we were able to identify key barriers to reproducibility and threats to validity in the study.
+The reproduction was limited by the time and energy of the reproducers (Sam and Matthew) and our limited expertise handling large datasets containing raster data and time series data.
+However, our inability to reproduce or verify all of the figures indicates that reproducibility attempts in the study were not sufficient to reduce barriers.
+Producing a more thorough reproduction could be accomplished by: Recreating Figure 2 Mapping out the authors’ workflow and study design based on the code Reanalyzing and visualizing the data using open source packages Visualizing and investigating prisons with missing data Replicating the study using nighttime low temperatures
+
+Ultimately, the study provides a template for exploring general trends in extreme heat risk for incarcerated populations.
+With further attention to clarity, accessibility, and reproducibility, this study and its reproductions could contribute to a reporting or monitoring system for heat risk in carceral facilities.
+Despite threats to validity and reproducibility, the study provides a basis for critical future research in environmental hazards and abolition.
 
 # Integrity Statement
 
@@ -997,4 +948,3 @@ This report is based upon the template for Reproducible and Replicable Research 
 > (2023).
 > Template for Reproducible and Replicable Research in Human-Environment and Geographical Sciences.
 > <https://doi.org/10.17605/OSF.IO/W29MQ>
-
