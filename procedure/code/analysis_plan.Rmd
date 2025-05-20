@@ -619,25 +619,6 @@ Sum of days exceeded multiplied by (Ratio of county population / state populatio
 
 Repeat workflow for reproducing figures 1 and 2, instead filtering for days when WBGTmax exceeded 29.4 degrees C (85 degrees F standard informed by other literature)
 
-### Deviation 2: Investigating sources of uncertainty/error/bias
-
-#### How many open facilities had a population of -999? (Potential source of uncertainty)
-
-
-```{r}
-# load prison boundaries shapefile
-
-
-
-# XXX
-dat.wbgt.summarised.regression = readRDS(here("data", "derived", "private", "dat.wbgt_regression_analysis.rds"))
-
-```
-
-#### Step 7: Select facilities with population of -999 from author-provided carceral facilities data.
-
-Report number of facilities compared to authors' number.
-
 # Results: Present figures (reproduced from original study and planned deviations).
 
 ## Create Fig. 1a and b using results from step 3
@@ -830,7 +811,6 @@ us = st_read(dsn=here("data", "raw", "public", "shapefiles", "states"),
 
 # reproject shapefile
 us_aea = st_transform(us, crs = ("+proj=laea +lat_0=45 +lon_0=-100 +x_0=0 +y_0=0 +a=6370997 +b=6370997 +units=m +no_defs"))
-us_aea = us
 #us_aea@data$id = rownames(us_aea@data) #????
 
 # extract coordinates
@@ -847,9 +827,10 @@ us_aea <- us_aea %>%
 us_aea = fortify(us_aea)
 
 
-## Preapare summary maps
+## Prepare summary maps
 # merge map with mean values
-USA.df.merged = left_join(USA.df,dat.wbgt.summarised.regression.merged,by='prison_id') ##changed to merged file? fid??
+USA.df.merged = left_join(USA.df,dat.wbgt.summarised.regression.merged,by='prison_id')
+##changed to merged file? fid??
 USA.df.merged = with(USA.df.merged, USA.df.merged[order(FID),]) # I CHANGED THIS IDK IF I MESSED IT UP -MM
 
 # map legends and colors
@@ -864,8 +845,7 @@ conflicts_prefer(dplyr::filter)
 USA.df.merged = USA.df.merged %>% 
   dplyr::filter(STATUS.x=='OPEN') %>% filter(POPULATION.x > 0)
 ```
-
-Plot count in last 5 years
+extract coordinates
 ```{r}
 us_aea <- us_aea %>%
   mutate(long = st_coordinates(st_centroid(us_aea$geometry))[,1],
@@ -873,13 +853,16 @@ us_aea <- us_aea %>%
 USA.df.merged <- USA.df.merged %>%
   mutate(long = st_coordinates(st_centroid(USA.df.merged$geometry))[,1],
          lat = st_coordinates(st_centroid(USA.df.merged$geometry))[,2])
+```
 
+
+Plot count in last 5 years
+```{r eval=FALSE}
 
 plot_last_5_years = function(threshold_chosen,legend_chosen=0){
   p = ggplot() +
-    geom_polygon(data=us_aea,aes(x=long,y=lat,group=STATE_NAME),fill='grey35',color='black',size=0.5) +
-    geom_polygon(data=USA.df.merged,aes(x=long,y=lat,group=FID,
-                                        color=get(paste0('wbgt_',threshold_chosen,'_',(end_year_wbgt-4),'_',end_year_wbgt))),size=1.2) +
+  geom_sf(mapping = aes(geometry=geometry), data=us_aea, fill='grey35', color='black', size=0.5) +
+  geom_point(data=USA.df.merged,aes(x=long,y=lat,color=wbgt_28_2016_2020),size=1.2) +
     scale_color_gradientn(colors=rev(MetBrewer::met.brewer('Tam')), limits = c(0,max(USA.df.merged$wbgt_28_2016_2020))) +
     coord_fixed() + xlab('') + ylab('') + theme_bw() +
     theme(panel.grid.major = element_blank(),
@@ -907,27 +890,51 @@ plot_last_5_years = function(threshold_chosen,legend_chosen=0){
 plot.count.end.year.legend = cowplot::get_legend(plot_last_5_years(26,1))
 ```
 
-```{r}
+
+```{r eval=FALSE}
 plot.count.last.5.years.26 = plot_last_5_years(26,1)
 plot.count.last.5.years.28 = plot_last_5_years(28,1)
 plot.count.last.5.years.30 = plot_last_5_years(30,1)
+
+plot.count.last.5.years.28
 ```
 
-# Plot figures 1a and 1b
+# Plot figure 1a
 ```{r}
 library(cowplot)
 pdf(paste0(here("data", "derived", "pubilc"),'Figure_1.pdf'),paper='a4r',width=0,height=0)
-plot_grid(plot.bar.chart.28, plot.count.last.5.years.28, 
+plot_grid(plot.bar.chart.28, 
           label_size = 14 ,
           label_x = -0.02, label_y = 1,
           labels = c('(a)', '(b)'))
 dev.off()
 
 
-plot_grid(plot.bar.chart.28, plot.count.last.5.years.28, 
+plot_grid(plot.bar.chart.28, 
           label_size = 14 ,
           label_x = -0.02, label_y = 1,
           labels = c('(a)', '(b)'))
+
+```
+# Plot figure 1b
+```{r}
+  p = ggplot() +
+  geom_sf(mapping = aes(geometry=geometry), data=us_aea, fill='grey35', color='black', size=0.5) +
+  geom_point(data=USA.df.merged,aes(x=long,y=lat,color=wbgt_28_2016_2020),size=1.2) +
+    scale_color_gradientn(colors=rev(MetBrewer::met.brewer('Tam')), limits = c(0,max(USA.df.merged$wbgt_28_2016_2020)))
+
+p
+```
+
+### Deviation 2: Investigating sources of uncertainty/error/bias
+
+#### How many open facilities had a population of -999? (Potential source of uncertainty)
+
+#### Step 7: Select facilities with population of -999 from author-provided carceral facilities data.
+
+Report number of facilities compared to authors' number.
+```{r}
+prisons.na <- left_join(USA.df,dat.wbgt.summarised.regression.merged,by='prison_id')
 
 
 ```
@@ -960,7 +967,10 @@ Key threats to validity identified were:
   b. *Temporal Resolution* - The study uses carceral facility population data from a single, unspecified date to calculate changes in heat risk over 38 years. This threatens validity because these populations are not stable and the lack of a specific date makes it impossible to check biases.
 4. *Selective Reporting Bias* - While the supplementary materials and github repository included additional figures and analyses testing different temperature thresholds and data visualizations, there is minimal documentation of the reasoning used to select the figures in the published study.
 
->\*Murage P, Hajat S, Kovats RS. Effect of night-time temperatures on cause and age-specific mortality in London. Environ Epidemiol. 2017 Dec;1(2):e005. doi: 10.1097/EE9.0000000000000005. Epub 2017 Dec 13. PMID: 33195962; PMCID: PMC7608908.
+>\*Murage P, Hajat S, Kovats RS.
+> Effect of night-time temperatures on cause and age-specific mortality in London.
+> Environ Epidemiol. 2017 Dec;1(2):e005.
+> doi: 10.1097/EE9.0000000000000005. Epub 2017 Dec 13. PMID: 33195962; PMCID: PMC7608908.
 
 Through this reproduction in progress, we were able to identify key barriers to reproducibility and threats to validity in the study. The reproduction was limited by the time and energy of the reproducers (Sam and Matthew) and our limited expertise handling large datasets containing raster data and time series data. However, our inability to reproduce or verify all of the figures indicates that reproducibility attempts in the study were not sufficient to reduce barriers. Producing a more thorough reproduction could be accomplished by:
 Recreating Figure 2
