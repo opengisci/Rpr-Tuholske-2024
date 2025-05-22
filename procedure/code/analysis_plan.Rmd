@@ -100,7 +100,7 @@ As we encounter the need for other packages in our implementation of the code, w
 # record all the packages you are using here
 # this includes any calls to library(), require(),
 # and double colons such as here::i_am()
-packages <- c("tidyverse", "here", "markdown", "htmltools", "dplyr", "sf", "stars", "tigris", "tmap", "dplyr", "data.table", "maptools", "mapproj", "rgeos", "rgdal", "RColorBrewer", "ggplot2", "graticule", "zoo", "purrr", "cowplot", "janitor")
+packages <- c("tidyverse", "here", "markdown", "htmltools", "dplyr", "sf", "stars", "tigris", "tmap", "dplyr", "data.table", "maptools", "mapproj", "RColorBrewer", "ggplot2", "graticule", "zoo", "purrr", "cowplot", "janitor")
 
 # force all conflicts to become errors
 # if you load dplyr and use filter(), R has to guess whether you mean dplyr::filter() or stats::filter()
@@ -228,10 +228,6 @@ We will not attempt to produce the original study's WBGTmax grid because the met
 ### Transform data to create Figures 1a, 1b
 
 (More descriptive segment of original study's workflow)
-
-# OFFICE HOURS NOTES
-
-recount the hazardous heat days (summarize hazardous heat excedence) per year by prison \# heat excedence by prison and year #NOTES- sequencing is unclear, first round of regressions is done in data rangling, HAVE TO READ ALL OF THE CODE AND SUPPLEMENTARY MATRIALS AND THE PAPER 2b is in the wrangling, 2c is calcued in the actual figure 2 code
 
 #### Step 1: Join author-provided WBGTmax by day grid data to author-provided carceral facility point data
 
@@ -398,7 +394,7 @@ saveRDS(dat.wbgt.summarised,here("data", "derived", "private", "dat.wbgt_regress
 
 ##### Iterate across years of WBGT data and combine into one large file
 
-```{r}
+```{r results='hide'}
 dat.all = data.frame()
 for(year in years_wbgtmax){
   print(paste0('Loading ',year))
@@ -454,7 +450,7 @@ dat.wbgt.state.summarised = dat.wbgt.state.summarised %>%
 
 #### Step 4c: load county populations
 
-```{r}
+```{r results='hide', message=FALSE, warning=FALSE}
 # original study code
 dat_pop= data.frame()
 for(year_selected in years_wbgtmax){
@@ -493,9 +489,9 @@ saveRDS(dat.wbgt.state.summarised.merged,here("data", "derived", "private", "dat
 dat.wbgt.state.summarised.merged.na
 ```
 
-Join to county shapefile and visualize \## NEED TO FIX
+Join to county shapefile and visualize
 
-```{r}
+```{r results='hide'}
 counties <- tigris::counties()
 
 counties48 <- counties |>
@@ -536,7 +532,7 @@ Take average of year before and year after dplyr filter where fips is in group o
 
 #### Step 4e: Take weighted average of each state in each year by population
 
-```{r}
+```{r results='hide'}
 dat.wbgt.summarised.merged.weighted = dat.wbgt.state.summarised.merged %>%
   mutate(state=substr(fips,1,2)) %>%
   group_by(state,year) %>%
@@ -639,7 +635,7 @@ theme_map = function(base_size=10, base_family=""){
 
 #### Load US prison shapefile to load details and mapping
 
-```{r}
+```{r results='hide'}
 # load shapefile of entire United States by prison
 us.main = st_read(dsn=here("data", "raw", "public", "shapefiles", "Prison_Boundaries"),
                   layer = "Prison_Boundaries_Edited")
@@ -671,7 +667,7 @@ USA.df$prison_id = as.integer(as.character(USA.df$FID))
 
 Merge prison over time file with shapefile (for geometry or prison data?)
 
-```{r}
+```{r results='hide'}
 # load prison wbgt over time file
 dat.wbgt.summarised.regression = readRDS(here("data", "derived", "private", "weighted_area_raster_state_wbgtmax_daily_1982_2020_over_time.rds"))
 
@@ -692,9 +688,9 @@ dat.wbgt.summarised.merged.weighted.prison = left_join(dat.wbgt.summarised,shape
                 wbgt_35_pop = wbgt_35 * POPULATION)
 ```
 
-calculate 5-year averages
+Calculate 5-year averages
 
-```{r}
+```{r results='hide'}
 # most recent 5 years (2016-2020)
 dat.wbgt.summarised.merged.weighted.prison.5year.average = dat.wbgt.summarised.merged.weighted.prison %>%
   dplyr::filter(year%in%years_wbgtmax[c((length(years_wbgtmax)-4):length(years_wbgtmax))]) %>%
@@ -740,7 +736,7 @@ dat.wbgt.summarised.merged.weighted.prison.first.5year.average = dat.wbgt.summar
 
 ## Create Figure 1a
 
-```{r}
+```{r results='hide'}
 library(MetBrewer)
 
 plot_bar_chart = function(threshold_chosen,legend_chosen=1){ 
@@ -783,7 +779,7 @@ plot.bar.chart.30 = plot_bar_chart(30,1)
 
 ## Create 1b
 
-```{r}
+```{r results='hide'}
 # load lower 48 US states
 us = st_read(dsn=here("data", "raw", "public", "shapefiles", "states"),
                   layer = "states")
@@ -821,7 +817,7 @@ USA.df.merged = USA.df.merged %>%
   dplyr::filter(STATUS.x=='OPEN') %>% filter(POPULATION.x > 0)
 ```
 
-extract coordinates
+Extract coordinates
 
 ```{r}
 USA.df.merged <- USA.df.merged %>%
@@ -832,7 +828,7 @@ USA.df.merged <- USA.df.merged %>%
 
 # Plot figure 1a
 
-```{r}
+```{r results='hide'}
 library(cowplot)
 pdf(paste0(here("data", "derived", "pubilc"),'Figure_1.pdf'),paper='a4r',width=0,height=0)
 plot_grid(plot.bar.chart.28, 
@@ -852,7 +848,7 @@ plot_grid(plot.bar.chart.28,
 # Plot figure 1b
 ### Unplanned Deviation: using geom_sf() to plot states as basemap and geom_point() functions to plot carceral facility points
 
-```{r}
+```{r results='hide'}
   p = ggplot() +
   geom_sf(mapping = aes(geometry=geometry), data=us_aea, fill='grey35', color='black', size=0.5) +
   geom_point(data=USA.df.merged,aes(x=long,y=lat,color=wbgt_28_2016_2020),size=1.2) +
@@ -867,7 +863,7 @@ p
 
 Report number of facilities compared to authors' number.
 
-```{r}
+```{r results='hide'}
 prisonsNA <- left_join(USA.df,dat.wbgt.summarised.regression.merged,by='prison_id') %>%
   dplyr::filter(POPULATION.x == -999 | STATUS.x == "NOT AVAILABLE") %>%
   mutate(long = st_coordinates(st_centroid(geometry))[,1],
@@ -935,8 +931,8 @@ Despite threats to validity and reproducibility, the study provides a basis for 
 
 # Integrity Statement
 
-This is the first version of our pre-analysis plan.
-Any deviations in our workflow will be documented as unplanned deviations.
+This is the first version of our report
+Any deviations from our pre-analysis plan in our workflow will be documented as unplanned deviations.
 
 # Acknowledgements
 
