@@ -62,7 +62,7 @@ The data, procedures, and results of this repository are outlined in three table
 - Results: [results/results_index.csv](results/results_index.csv)
 
 Important local **documents** include:
-- Pre-analysis plan: [docs/report/preanalysisplan_v1.0.html](https://padutchfan123.github.io/tuholske-et-al-reproduction/report/preanalysisplan_v1.0.html)
+- Pre-analysis plan: [docs/report/preanalysisplan_v1.0.html](https://padutchfan123.github.io/tuholske-et-al-reproduction/docs/report/preanalysisplan_v1.0.html)
 - Study report: [docs/report/report.html](https://padutchfan123.github.io/tuholske-et-al-reproduction/docs/report/report.html)
 - Manuscript: [docs/manuscript/manuscript.pdf](docs/manuscript/manuscript.pdf)
 - Presentation: [docs/presentation/presentation.pdf](docs/presentation/presentation.pdf)
